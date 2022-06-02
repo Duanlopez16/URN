@@ -8,6 +8,24 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * Class User
+ *
+ * @property $id
+ * @property $uuid
+ * @property $name
+ * @property $email
+ * @property $email_verified_at
+ * @property $password
+ * @property $rol_id
+ * @property $remember_token
+ * @property $created_at
+ * @property $updated_at
+ *
+ * @property Rol $rol
+ * @package App
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -41,4 +59,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    static $rules = [
+        'uuid' => 'required',
+        'name' => 'required',
+        'email' => 'required',
+        'rol_id' => 'required',
+    ];
+
+    /**
+     * perPage
+     *
+     * @var int
+     */
+    protected $perPage = 20;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function rol()
+    {
+        return $this->hasOne('App\Models\Rol', 'id', 'rol_id');
+    }
 }
