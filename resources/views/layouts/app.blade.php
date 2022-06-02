@@ -36,7 +36,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('categoria.index') }}">{{ __('Categorias') }}</a>
+                            <a class="nav-link" href="{{ route('categoria.index') }}">{{ __('Prueba') }}</a>
                         </li>
                     </ul>
 
