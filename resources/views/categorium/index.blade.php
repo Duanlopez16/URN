@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-Categoria
+Categorium
 @endsection
 
 @section('content')
@@ -13,12 +13,12 @@ Categoria
                     <div style="display: flex; justify-content: space-between; align-items: center;">
 
                         <span id="card_title">
-                            {{ __('Categoria') }}
+                            {{ __('Categorias') }}
                         </span>
 
                         <div class="float-right">
                             <a href="{{ route('categoria.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
-                                {{ __('Crear categoria') }}
+                                {{ __('Crear Categoria') }}
                             </a>
                         </div>
                     </div>
@@ -54,11 +54,11 @@ Categoria
 
                                     <td>
                                         <form action="{{ route('categoria.destroy',$categorium->id) }}" method="POST">
-                                            <a class="btn btn-sm btn-primary " href="{{ route('categoria.show',$categorium->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                            <a class="btn btn-sm btn-success" href="{{ route('categoria.edit',$categorium->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
+                                            <a class="btn btn-sm btn-primary " href="{{ route('categoria.show',$categorium->id) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
+                                            <a class="btn btn-sm btn-success" href="{{ route('categoria.edit',$categorium->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
                                         </form>
                                     </td>
                                 </tr>

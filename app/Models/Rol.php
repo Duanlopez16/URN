@@ -24,6 +24,14 @@ class Rol extends Model
 
     static $rules = [];
 
+    /**
+     * table
+     *
+     * @var string
+     */
+    protected $table = 'rol';
+
+
     protected $perPage = 20;
 
     /**

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use \App\Models\Categoria;
 use Illuminate\Http\Request;
 
 /**
- * Class categoriaController
+ * Class CategoriaController
  * @package App\Http\Controllers
  */
 class CategoriaController extends Controller
@@ -18,8 +17,9 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categoria = \App\Models\Categoria::where('status', '=', 1)->paginate();
-        return view('categoria.index', compact('categoria'))
+        $categoria = \App\Models\Categoria::Where('status', '=', 1)->paginate();
+
+        return view('categorium.index', compact('categoria'))
             ->with('i', (request()->input('page', 1) - 1) * $categoria->perPage());
     }
 
@@ -30,8 +30,8 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        $categoria = new \App\Models\Categoria();
-        return view('categoria.create', compact('categoria'));
+        $categorium = new \App\Models\Categoria();
+        return view('categorium.create', compact('categorium'));
     }
 
     /**
@@ -44,10 +44,10 @@ class CategoriaController extends Controller
     {
         request()->validate(\App\Models\Categoria::$rules);
 
-        $categoria = \App\Models\Categoria::create($request->all());
+        $categorium = \App\Models\Categoria::create($request->all());
 
         return redirect()->route('categoria.index')
-            ->with('success', 'Categoria created successfully.');
+            ->with('success', 'Categoria creada correctamente.');
     }
 
     /**
@@ -58,9 +58,9 @@ class CategoriaController extends Controller
      */
     public function show($id)
     {
-        $categoria = \App\Models\Categoria::find($id);
+        $categorium = \App\Models\Categoria::find($id);
 
-        return view('categoria.show', compact('categoria'));
+        return view('categorium.show', compact('categorium'));
     }
 
     /**
@@ -71,26 +71,26 @@ class CategoriaController extends Controller
      */
     public function edit($id)
     {
-        $categoria = \App\Models\Categoria::find($id);
+        $categorium = \App\Models\Categoria::find($id);
 
-        return view('categoria.edit', compact('categoria'));
+        return view('categorium.edit', compact('categorium'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  categoria $categoria
+     * @param  Categorium $categorium
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, \App\Models\Categoria $categoria)
+    public function update(Request $request, \App\Models\Categoria $categorium)
     {
         request()->validate(\App\Models\Categoria::$rules);
 
-        $categoria->update($request->all());
+        $categorium->update($request->all());
 
         return redirect()->route('categoria.index')
-            ->with('success', 'categoria updated successfully');
+            ->with('success', 'Categoria editada correctamente');
     }
 
     /**
@@ -104,6 +104,6 @@ class CategoriaController extends Controller
         $categoria->status = 0;
         $categoria->update();
         return redirect()->route('categoria.index')
-            ->with('success', 'categoria deleted successfully');
+            ->with('success', 'Categoria Eliminada correctamente');
     }
 }

@@ -1,25 +1,26 @@
 @extends('layouts.app')
 
 @section('template_title')
-Create Categorium
+Update Categorium
 @endsection
 
 @section('content')
 <section class="content container-fluid">
-    <div class="row">
+    <div class="">
         <div class="col-md-12">
 
             @includeif('partials.errors')
 
             <div class="card card-default">
                 <div class="card-header">
-                    <span class="card-title">Create Categorium</span>
+                    <span class="card-title">Editar Categoría</span>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('categoria.store') }}" role="form" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('categoria.update', $categorium->id) }}" role="form" enctype="multipart/form-data">
+                        {{ method_field('PATCH') }}
                         @csrf
 
-                        @include('categoria.form')
+                        @include('categorium.form')
 
                     </form>
                 </div>

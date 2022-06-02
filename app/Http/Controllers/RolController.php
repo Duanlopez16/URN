@@ -47,7 +47,7 @@ class RolController extends Controller
 
         $rol = Rol::create($request->all());
 
-        return redirect()->route('rols.index')
+        return redirect()->route('rol.index')
             ->with('success', 'Rol created successfully.');
     }
 
@@ -84,13 +84,13 @@ class RolController extends Controller
      * @param  Rol $rol
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Rol $rol)
+    public function update(Request $request, \App\Models\Rol $rol)
     {
         request()->validate(Rol::$rules);
 
         $rol->update($request->all());
 
-        return redirect()->route('rols.index')
+        return redirect()->route('rol.index')
             ->with('success', 'Rol updated successfully');
     }
 
@@ -103,7 +103,7 @@ class RolController extends Controller
     {
         $rol = Rol::find($id)->delete();
 
-        return redirect()->route('rols.index')
+        return redirect()->route('rol.index')
             ->with('success', 'Rol deleted successfully');
     }
 }
