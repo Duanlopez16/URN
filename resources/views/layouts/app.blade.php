@@ -45,6 +45,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('rol.index') }}">{{ __('Rol') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('tipo-documento.index') }}">{{ __('Tipo documento') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('user.index') }}">{{ __('Usuario') }}</a>
+                        </li>
                     </ul>
                     @endguest
 

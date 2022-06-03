@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Rol
+ * Class TipoDocumento
  *
  * @property $id
  * @property $uuid
  * @property $nombre
- * @property $tipo
- * @property $descripcion
+ * @property $abreviatura
  * @property $status
  * @property $created_at
  * @property $updated_at
@@ -20,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class Rol extends Model
+class TipoDocumento extends Model
 {
 
     static $rules = [];
@@ -30,8 +29,13 @@ class Rol extends Model
      *
      * @var string
      */
-    protected $table = 'rol';
+    protected $table = 'tipo_documento';
 
+    /**
+     * perPage
+     *
+     * @var int
+     */
     protected $perPage = 20;
 
     /**
@@ -39,7 +43,7 @@ class Rol extends Model
      *
      * @var array
      */
-    protected $fillable = ['uuid', 'nombre', 'tipo', 'descripcion', 'status'];
+    protected $fillable = ['uuid', 'nombre', 'abreviatura', 'status'];
 
 
     /**
@@ -47,7 +51,7 @@ class Rol extends Model
      */
     public function users()
     {
-        return $this->hasMany('App\Models\User', 'rol_id', 'id');
+        return $this->hasMany('App\Models\User', 'tipo_documento_id', 'id');
     }
 
     /**

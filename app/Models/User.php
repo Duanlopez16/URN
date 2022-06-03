@@ -18,11 +18,16 @@ use Laravel\Sanctum\HasApiTokens;
  * @property $email_verified_at
  * @property $password
  * @property $rol_id
+ * @property $tipo_documento_id
+ * @property $documento
+ * @property $direccion
+ * @property $telefono
  * @property $remember_token
  * @property $created_at
  * @property $updated_at
  *
  * @property Rol $rol
+ * @property TipoDocumento $tipoDocumento
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -80,5 +85,13 @@ class User extends Authenticatable
     public function rol()
     {
         return $this->hasOne('App\Models\Rol', 'id', 'rol_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function TipoDocumento()
+    {
+        return $this->hasOne('App\Models\TipoDocumento', 'id', 'rol_id');
     }
 }

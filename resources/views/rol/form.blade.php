@@ -20,7 +20,7 @@
     </div>
     <div class="box-footer mt20">
         <a class="btn btn-secondary" href="{{ route('rol.index') }}"> Regresar</a>
-        @if (!empty($rol->nombre))
+        @if ( Route::currentRouteName() =='rol.create' ||!empty($rol->nombre))
         <button type="submit" class="btn btn-primary">Enviar</button>
         @else
         <button type="submit" class="btn btn-primary" disabled>Enviar</button>

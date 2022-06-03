@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-User
+Tipo Documento
 @endsection
 
 @section('content')
@@ -13,11 +13,11 @@ User
                     <div style="display: flex; justify-content: space-between; align-items: center;">
 
                         <span id="card_title">
-                            {{ __('User') }}
+                            {{ __('Tipo Documento') }}
                         </span>
 
                         <div class="float-right">
-                            <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
+                            <a href="{{ route('tipo-documento.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
                                 {{ __('Create New') }}
                             </a>
                         </div>
@@ -37,39 +37,29 @@ User
                                     <th>No</th>
 
                                     <th>Uuid</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Rol Id</th>
-                                    <th>Tipo Documento Id</th>
-                                    <th>Documento</th>
-                                    <th>Direccion</th>
-                                    <th>Telefono</th>
+                                    <th>Nombre</th>
+                                    <th>Abreviatura</th>
                                     <th>Status</th>
 
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($tipoDocumentos as $tipoDocumento)
                                 <tr>
                                     <td>{{ ++$i }}</td>
 
-                                    <td>{{ $user->uuid }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->rol_id }}</td>
-                                    <td>{{ $user->tipo_documento_id }}</td>
-                                    <td>{{ $user->documento }}</td>
-                                    <td>{{ $user->direccion }}</td>
-                                    <td>{{ $user->telefono }}</td>
+                                    <td>{{ $tipoDocumento->uuid }}</td>
+                                    <td>{{ $tipoDocumento->nombre }}</td>
+                                    <td>{{ $tipoDocumento->abreviatura }}</td>
 
                                     <td>
-                                        <form action="{{ route('user.destroy',$user->id) }}" method="POST">
-                                            <a class="btn btn-sm btn-primary " href="{{ route('user.show',$user->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                            <a class="btn btn-sm btn-success" href="{{ route('user.edit',$user->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
+                                        <form action="{{ route('tipo-documento.destroy',$tipoDocumento->id) }}" method="POST">
+                                            <a class="btn btn-sm btn-primary " href="{{ route('tipo-documento.show',$tipoDocumento->id) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
+                                            <a class="btn btn-sm btn-success" href="{{ route('tipo-documento.edit',$tipoDocumento->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -79,7 +69,7 @@ User
                     </div>
                 </div>
             </div>
-            {!! $users->links() !!}
+            {!! $tipoDocumentos->links() !!}
         </div>
     </div>
 </div>
