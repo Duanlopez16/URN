@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $created_at
  * @property $updated_at
  *
+ * @property User[] $users
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -23,14 +24,12 @@ class Rol extends Model
 {
 
     static $rules = [];
-
     /**
      * table
      *
      * @var string
      */
     protected $table = 'rol';
-
 
     protected $perPage = 20;
 
@@ -40,6 +39,15 @@ class Rol extends Model
      * @var array
      */
     protected $fillable = ['uuid', 'nombre', 'tipo', 'descripcion', 'status'];
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->hasMany('App\Models\User', 'rol_id', 'id');
+    }
 
     /**
      * boot

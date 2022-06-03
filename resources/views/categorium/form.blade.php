@@ -16,6 +16,12 @@
     <br>
     <div class="box-footer mt20">
         <a class="btn btn-secondary" href="{{ route('categoria.index') }}"> Regresar</a>
+
+        @if (!empty($categorium->nombre))
         <button type="submit" class="btn btn-primary">Enviar</button>
+        @else
+        <button type="submit" class="btn btn-primary" disabled>Enviar</button>
+
+        @endif
     </div>
 </div>

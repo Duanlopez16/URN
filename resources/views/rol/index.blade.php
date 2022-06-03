@@ -18,7 +18,7 @@ Rol
 
                         <div class="float-right">
                             <a href="{{ route('rol.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
-                                {{ __('Create New') }}
+                                {{ __('Crear Rol') }}
                             </a>
                         </div>
                     </div>
@@ -35,12 +35,10 @@ Rol
                             <thead class="thead">
                                 <tr>
                                     <th>No</th>
-
                                     <th>Uuid</th>
                                     <th>Nombre</th>
                                     <th>Tipo</th>
                                     <th>Descripcion</th>
-                                    <th>Status</th>
 
                                     <th></th>
                                 </tr>
@@ -49,20 +47,18 @@ Rol
                                 @foreach ($rols as $rol)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-
                                     <td>{{ $rol->uuid }}</td>
                                     <td>{{ $rol->nombre }}</td>
                                     <td>{{ $rol->tipo }}</td>
                                     <td>{{ $rol->descripcion }}</td>
-                                    <td>{{ $rol->status }}</td>
 
                                     <td>
-                                        <form action="{{ route('rol.destroy',$rol->id) }}" method="POST">
-                                            <a class="btn btn-sm btn-primary " href="{{ route('rol.show',$rol->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                            <a class="btn btn-sm btn-success" href="{{ route('rol.edit',$rol->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
+                                        <form action="{{ route('rol.destroy',$rol->uuid) }}" method="POST">
+                                            <a class="btn btn-sm btn-primary " href="{{ route('rol.show',$rol->uuid) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
+                                            <a class="btn btn-sm btn-success" href="{{ route('rol.edit',$rol->uuid) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
                                         </form>
                                     </td>
                                 </tr>

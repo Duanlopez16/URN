@@ -53,12 +53,12 @@ class CategoriaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($uuid)
     {
-        $categorium = \App\Models\Categoria::find($id);
+        $categorium = \App\Models\Categoria::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
 
         return view('categorium.show', compact('categorium'));
     }
@@ -66,12 +66,12 @@ class CategoriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($uuid)
     {
-        $categorium = \App\Models\Categoria::find($id);
+        $categorium = \App\Models\Categoria::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
 
         return view('categorium.edit', compact('categorium'));
     }
@@ -80,7 +80,7 @@ class CategoriaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  Categorium $categorium
+     * @param  Categoria $categoria
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, \App\Models\Categoria $categorium)
@@ -94,13 +94,15 @@ class CategoriaController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $categoria = \App\Models\Categoria::find($id);
+        $categoria = \App\Models\Categoria::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+        if (!empty($categoria)) {
+        }
         $categoria->status = 0;
         $categoria->update();
         return redirect()->route('categoria.index')

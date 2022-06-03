@@ -53,9 +53,9 @@ Categorium
                                     <td>{{ $categorium->descripcion }}</td>
 
                                     <td>
-                                        <form action="{{ route('categoria.destroy',$categorium->id) }}" method="POST">
-                                            <a class="btn btn-sm btn-primary " href="{{ route('categoria.show',$categorium->id) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
-                                            <a class="btn btn-sm btn-success" href="{{ route('categoria.edit',$categorium->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
+                                        <form action="{{ route('categoria.destroy',$categorium->uuid) }}" method="POST">
+                                            <a class="btn btn-sm btn-primary " href="{{ route('categoria.show',$categorium->uuid) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
+                                            <a class="btn btn-sm btn-success" href="{{ route('categoria.edit',$categorium->uuid) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Eliminar</button>

@@ -18,7 +18,7 @@ class RolController extends Controller
      */
     public function index()
     {
-        $rols = Rol::paginate();
+        $rols = Rol::where('status', '=', 1)->paginate();
 
         return view('rol.index', compact('rols'))
             ->with('i', (request()->input('page', 1) - 1) * $rols->perPage());
@@ -54,26 +54,24 @@ class RolController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($uuid)
     {
-        $rol = Rol::find($id);
-
+        $rol = Rol::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
         return view('rol.show', compact('rol'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($uuid)
     {
-        $rol = Rol::find($id);
-
+        $rol = Rol::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
         return view('rol.edit', compact('rol'));
     }
 
@@ -91,18 +89,22 @@ class RolController extends Controller
         $rol->update($request->all());
 
         return redirect()->route('rol.index')
-            ->with('success', 'Rol updated successfully');
+            ->with('success', 'Rol editado correctamente');
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $rol = Rol::find($id)->delete();
+        $rol = Rol::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
 
+        if (!empty($rol)) {
+            $rol->status = 0;
+            $rol->update();
+        }
         return redirect()->route('rol.index')
             ->with('success', 'Rol deleted successfully');
     }
