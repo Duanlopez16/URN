@@ -44,6 +44,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'documento',
+        'direccion',
+        'telefono',
+        'rol_id',
+        'tipo_documento_id'
     ];
 
     /**
@@ -66,10 +71,13 @@ class User extends Authenticatable
     ];
 
     static $rules = [
-        'uuid' => 'required',
         'name' => 'required',
-        'email' => 'required',
-        'rol_id' => 'required',
+        'email' => 'required|email',
+        'rol_id' => 'required|number',
+        'tipo_documento_id' => 'required|number',
+        'documento' => 'required|number',
+        'direccion' => 'required',
+        'telefono' => 'required|number',
     ];
 
     /**
@@ -93,5 +101,41 @@ class User extends Authenticatable
     public function TipoDocumento()
     {
         return $this->hasOne('App\Models\TipoDocumento', 'id', 'rol_id');
+    }
+
+    /**
+     * boot
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function ($model) {
+            $uuid = \Ramsey\Uuid\Uuid::uuid4();
+            $model->uuid = $uuid->toString();
+            return $model;
+        });
+
+        self::created(function ($model) {
+            // ... code here
+        });
+
+        self::updating(function ($model) {
+            // ... code here
+        });
+
+        self::updated(function ($model) {
+            // ... code here
+        });
+
+        self::deleting(function ($model) {
+            // ... code here
+        });
+
+        self::deleted(function ($model) {
+            // ... code here
+        });
     }
 }

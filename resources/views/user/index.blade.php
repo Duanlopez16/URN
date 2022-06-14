@@ -65,7 +65,7 @@ User
 
                                     <td>
                                         <form action="{{ route('user.destroy',$user->id) }}" method="POST">
-                                            <a class="btn btn-sm btn-primary " href="{{ route('user.show',$user->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
+                                            <a class="btn btn-sm btn-primary " href="{{ route('user.show',$user->id) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
                                             <a class="btn btn-sm btn-success" href="{{ route('user.edit',$user->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
                                             @csrf
                                             @method('DELETE')

@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
  */
 class RolController extends Controller
 {
+
+    /**
+     * search
+     *
+     * @var mixed
+     */
+    public $search;
+
     /**
      * Display a listing of the resource.
      *

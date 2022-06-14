@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property $status
  * @property $created_at
  * @property $updated_at
+ * @property $user_creator
+ * @property $user_last_update
  *
  * @property Producto[] $productos
  * @package App
@@ -40,7 +42,7 @@ class categoria extends Model
      *
      * @var array
      */
-    protected $fillable = ['uuid', 'nombre', 'descripcion', 'status'];
+    protected $fillable = ['uuid', 'nombre', 'descripcion', 'status', 'user_creator', 'user_last_update'];
 
 
     /**
@@ -65,6 +67,7 @@ class categoria extends Model
         self::creating(function ($model) {
             $uuid = \Ramsey\Uuid\Uuid::uuid4();
             $model->uuid = $uuid->toString();
+            $model->user_creator = auth()->id();
             return $model;
         });
 

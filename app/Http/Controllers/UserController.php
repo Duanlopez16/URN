@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate();
+        $users = User::Where('status', '=', 1)->where('id', '!=', auth()->id())->paginate();
 
         return view('user.index', compact('users'))
             ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
@@ -31,8 +31,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        $rols =  \App\Models\Rol::where('status', '=', 1)->pluck('nombre', 'id');
+        $tipo_documentos = \App\Models\TipoDocumento::where('status', '=', 1)->pluck('nombre', 'id');
         $user = new User();
-        return view('user.create', compact('user'));
+        return view('user.create', compact('user', 'rols', 'tipo_documentos'));
     }
 
     /**
@@ -44,8 +46,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         request()->validate(User::$rules);
-
-        $user = User::create($request->all());
+        $data = $request->all();
+        $data['password'] = \Illuminate\Support\Facades\Hash::make($data['documento']);
+        $user = User::create($data);
 
         return redirect()->route('user.index')
             ->with('success', 'User created successfully.');
@@ -72,9 +75,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $rols =  \App\Models\Rol::where('status', '=', 1)->pluck('nombre', 'id');
+        $tipo_documentos = \App\Models\TipoDocumento::where('status', '=', 1)->pluck('nombre', 'id');
         $user = User::find($id);
 
-        return view('user.edit', compact('user'));
+        return view('user.edit', compact('user', 'rols', 'tipo_documentos'));
     }
 
     /**
