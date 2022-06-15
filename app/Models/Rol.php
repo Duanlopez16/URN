@@ -62,6 +62,7 @@ class Rol extends Model
         self::creating(function ($model) {
             $uuid = \Ramsey\Uuid\Uuid::uuid4();
             $model->uuid = $uuid->toString();
+            $model->user_creator = auth()->id();
             return $model;
         });
 
