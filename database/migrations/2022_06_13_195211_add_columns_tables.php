@@ -23,17 +23,7 @@ return new class extends Migration
             $table->integer('user_last_update')->after('user_creator')->nullable();
         });
 
-        Schema::table('categoria', function (Blueprint $table) {
-            $table->integer('user_creator')->after('updated_at');
-            $table->integer('user_last_update')->after('user_creator')->nullable();
-        });
-
         Schema::table('tipo_documento', function (Blueprint $table) {
-            $table->integer('user_creator')->after('updated_at');
-            $table->integer('user_last_update')->after('user_creator')->nullable();
-        });
-
-        Schema::table('producto', function (Blueprint $table) {
             $table->integer('user_creator')->after('updated_at');
             $table->integer('user_last_update')->after('user_creator')->nullable();
         });
