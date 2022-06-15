@@ -76,7 +76,8 @@ class categoria extends Model
         });
 
         self::updating(function ($model) {
-            // ... code here
+            $model->user_last_update = auth()->id();
+            return $model;
         });
 
         self::updated(function ($model) {

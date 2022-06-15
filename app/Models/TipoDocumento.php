@@ -66,6 +66,7 @@ class TipoDocumento extends Model
         self::creating(function ($model) {
             $uuid = \Ramsey\Uuid\Uuid::uuid4();
             $model->uuid = $uuid->toString();
+            $model->user_creator = auth()->id();
             return $model;
         });
 
@@ -74,7 +75,8 @@ class TipoDocumento extends Model
         });
 
         self::updating(function ($model) {
-            // ... code here
+            $model->user_last_update = auth()->id();
+            return $model;
         });
 
         self::updated(function ($model) {

@@ -53,7 +53,7 @@ Rol
                                     <td>{{ $rol->descripcion }}</td>
 
                                     <td>
-                                        <form action="{{ route('rol.destroy',$rol->uuid) }}" method="POST">
+                                        <form action="{{ route('rol.destroy',$rol->uuid)}}" method="POST">
                                             <a class="btn btn-sm btn-primary " href="{{ route('rol.show',$rol->uuid) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
                                             <a class="btn btn-sm btn-success" href="{{ route('rol.edit',$rol->uuid) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                                             @csrf

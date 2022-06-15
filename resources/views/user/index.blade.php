@@ -39,12 +39,11 @@ User
                                     <th>Uuid</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Rol Id</th>
-                                    <th>Tipo Documento Id</th>
+                                    <th>Rol</th>
+                                    <th>Tipo Documento</th>
                                     <th>Documento</th>
                                     <th>Direccion</th>
                                     <th>Telefono</th>
-                                    <th>Status</th>
 
                                     <th></th>
                                 </tr>
