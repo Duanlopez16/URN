@@ -17,7 +17,7 @@ class TipoDocumentoController extends Controller
      */
     public function index()
     {
-        $tipoDocumentos = \App\Models\TipoDocumento::paginate();
+        $tipoDocumentos = \App\Models\TipoDocumento::where('status', '=', 1)->paginate();
 
         return view('tipo-documento.index', compact('tipoDocumentos'))
             ->with('i', (request()->input('page', 1) - 1) * $tipoDocumentos->perPage());

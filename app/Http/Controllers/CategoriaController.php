@@ -12,6 +12,16 @@ class CategoriaController extends Controller
 {
 
     /**
+     * __construct
+     *
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('admin')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -60,8 +70,11 @@ class CategoriaController extends Controller
     public function show($uuid)
     {
         $categorium = \App\Models\Categoria::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
-
-        return view('categorium.show', compact('categorium'));
+        if (!empty($categorium)) {
+            return view('categorium.show', compact('categorium'));
+        } else {
+            return response()->view('errors.404', [], 404);
+        }
     }
 
     /**
@@ -103,9 +116,9 @@ class CategoriaController extends Controller
     {
         $categoria = \App\Models\Categoria::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
         if (!empty($categoria)) {
+            $categoria->status = 0;
+            $categoria->update();
         }
-        $categoria->status = 0;
-        $categoria->update();
         return redirect()->route('categoria.index')
             ->with('success', 'Categoria Eliminada correctamente');
     }

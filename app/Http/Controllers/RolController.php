@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rol;
 use Illuminate\Http\Request;
 
 /**
@@ -26,7 +25,7 @@ class RolController extends Controller
      */
     public function index()
     {
-        $rols = Rol::where('status', '=', 1)->paginate();
+        $rols = \App\Models\Rol::where('status', '=', 1)->paginate();
 
         return view('rol.index', compact('rols'))
             ->with('i', (request()->input('page', 1) - 1) * $rols->perPage());
@@ -39,7 +38,7 @@ class RolController extends Controller
      */
     public function create()
     {
-        $rol = new Rol();
+        $rol = new \App\Models\Rol();
         return view('rol.create', compact('rol'));
     }
 
@@ -51,9 +50,9 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Rol::$rules);
+        request()->validate(\App\Models\Rol::$rules);
 
-        $rol = Rol::create($request->all());
+        $rol = \App\Models\Rol::create($request->all());
 
         return redirect()->route('rol.index')
             ->with('success', 'Rol created successfully.');
@@ -67,7 +66,7 @@ class RolController extends Controller
      */
     public function show($uuid)
     {
-        $rol = Rol::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+        $rol = \App\Models\Rol::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
         return view('rol.show', compact('rol'));
     }
 
@@ -79,7 +78,7 @@ class RolController extends Controller
      */
     public function edit($uuid)
     {
-        $rol = Rol::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+        $rol = \App\Models\Rol::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
         return view('rol.edit', compact('rol'));
     }
 
@@ -92,7 +91,7 @@ class RolController extends Controller
      */
     public function update(Request $request, \App\Models\Rol $rol)
     {
-        request()->validate(Rol::$rules);
+        request()->validate(\App\Models\Rol::$rules);
 
         $rol->update($request->all());
 
@@ -107,7 +106,7 @@ class RolController extends Controller
      */
     public function destroy($uuid)
     {
-        $rol = Rol::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+        $rol = \App\Models\Rol::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
 
         if (!empty($rol)) {
             $rol->status = 0;
