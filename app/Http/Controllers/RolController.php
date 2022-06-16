@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
 /**
  * Class RolController
@@ -48,7 +47,7 @@ class RolController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(\Illuminate\Http\Request $request)
     {
         request()->validate(\App\Models\Rol::$rules);
 
@@ -89,7 +88,7 @@ class RolController extends Controller
      * @param  Rol $rol
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, \App\Models\Rol $rol)
+    public function update(\Illuminate\Http\Request $request, \App\Models\Rol $rol)
     {
         request()->validate(\App\Models\Rol::$rules);
 

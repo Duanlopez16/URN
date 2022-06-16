@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 /**
  * Class UserController
  * @package App\Http\Controllers
@@ -42,7 +40,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(\Illuminate\Http\Request $request)
     {
         request()->validate(\App\Models\User::$rules);
         $data = $request->all();
@@ -59,7 +57,7 @@ class UserController extends Controller
      * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function show($uuid)
+    public function show(string $uuid)
     {
         $user = \App\Models\User::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
         return view('user.show', compact('user'));
@@ -71,7 +69,7 @@ class UserController extends Controller
      * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function edit($uuid)
+    public function edit(string $uuid)
     {
         $rols =  \App\Models\Rol::where('status', '=', 1)->pluck('nombre', 'id');
         $tipo_documentos = \App\Models\TipoDocumento::where('status', '=', 1)->pluck('nombre', 'id');
@@ -87,7 +85,7 @@ class UserController extends Controller
      * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, \App\Models\User $user)
+    public function update(\Illuminate\Http\Request $request, \App\Models\User $user)
     {
         request()->validate(\App\Models\User::$rules);
 
@@ -102,7 +100,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy($uuid)
+    public function destroy(string $uuid)
     {
         $user = \App\Models\User::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
         if (!empty($user)) {

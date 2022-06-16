@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 /**
  * Class CategoriaController
  * @package App\Http\Controllers
@@ -51,7 +49,7 @@ class CategoriaController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(\Illuminate\Http\Request $request)
     {
         request()->validate(\App\Models\Categoria::$rules);
 
@@ -97,7 +95,7 @@ class CategoriaController extends Controller
      * @param  Categoria $categoria
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, \App\Models\Categoria $categorium)
+    public function update(\Illuminate\Http\Request $request, \App\Models\Categoria $categorium)
     {
         request()->validate(\App\Models\Categoria::$rules);
 

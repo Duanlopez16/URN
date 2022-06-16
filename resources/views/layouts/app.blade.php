@@ -74,7 +74,7 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item " href="{{ route('user.show',auth()->id()) }}"><i class="fa fa-fw fa-eye"></i> Perfil</a>
+                                <a class="dropdown-item " href="{{ route('user.show',auth()->user()->uuid) }}"><i class="fa fa-fw fa-eye"></i> Perfil</a>
 
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">

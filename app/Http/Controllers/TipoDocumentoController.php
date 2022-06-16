@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 /**
  * Class TipoDocumentoController
  * @package App\Http\Controllers
@@ -40,7 +38,7 @@ class TipoDocumentoController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(\Illuminate\Http\Request $request)
     {
         request()->validate(\App\Models\TipoDocumento::$rules);
 
@@ -82,7 +80,7 @@ class TipoDocumentoController extends Controller
      * @param  TipoDocumento $tipoDocumento
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, \App\Models\TipoDocumento $tipoDocumento)
+    public function update(\Illuminate\Http\Request $request, \App\Models\TipoDocumento $tipoDocumento)
     {
         request()->validate(\App\Models\TipoDocumento::$rules);
 
