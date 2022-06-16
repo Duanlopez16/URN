@@ -64,11 +64,11 @@ User
 
                                     <td>
                                         <form action="{{ route('user.destroy',$user->id) }}" method="POST">
-                                            <a class="btn btn-sm btn-primary " href="{{ route('user.show',$user->id) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
-                                            <a class="btn btn-sm btn-success" href="{{ route('user.edit',$user->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
+                                            <a class="btn btn-sm btn-primary " href="{{ route('user.show',$user->uuid) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
+                                            <a class="btn btn-sm btn-success" href="{{ route('user.edit',$user->uuid) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
                                         </form>
                                     </td>
                                 </tr>

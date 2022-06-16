@@ -55,8 +55,8 @@ Tipo Documento
 
                                     <td>
                                         <form action="{{ route('tipo-documento.destroy',$tipoDocumento->id) }}" method="POST">
-                                            <a class="btn btn-sm btn-primary " href="{{ route('tipo-documento.show',$tipoDocumento->id) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
-                                            <a class="btn btn-sm btn-success" href="{{ route('tipo-documento.edit',$tipoDocumento->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
+                                            <a class="btn btn-sm btn-primary " href="{{ route('tipo-documento.show',$tipoDocumento->uuid) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
+                                            <a class="btn btn-sm btn-success" href="{{ route('tipo-documento.edit',$tipoDocumento->uuid) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Eliminar</button>

@@ -34,11 +34,11 @@
                         {{ $user->email }}
                     </div>
                     <div class="form-group">
-                        <strong>Rol Id:</strong>
+                        <strong>Rol:</strong>
                         {{ $user->rol_id }}
                     </div>
                     <div class="form-group">
-                        <strong>Tipo Documento Id:</strong>
+                        <strong>Tipo Documento:</strong>
                         {{ $user->tipo_documento_id }}
                     </div>
                     <div class="form-group">

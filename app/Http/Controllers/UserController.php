@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -18,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::Where('status', '=', 1)->where('id', '!=', auth()->id())->paginate();
+        $users = \App\Models\User::Where('status', '=', 1)->where('id', '!=', auth()->id())->paginate();
 
         return view('user.index', compact('users'))
             ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
@@ -33,7 +32,7 @@ class UserController extends Controller
     {
         $rols =  \App\Models\Rol::where('status', '=', 1)->pluck('nombre', 'id');
         $tipo_documentos = \App\Models\TipoDocumento::where('status', '=', 1)->pluck('nombre', 'id');
-        $user = new User();
+        $user = new \App\Models\User();
         return view('user.create', compact('user', 'rols', 'tipo_documentos'));
     }
 
@@ -45,39 +44,38 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(User::$rules);
+        request()->validate(\App\Models\User::$rules);
         $data = $request->all();
         $data['password'] = \Illuminate\Support\Facades\Hash::make($data['documento']);
-        $user = User::create($data);
+        $user = \App\Models\User::create($data);
 
         return redirect()->route('user.index')
-            ->with('success', 'User created successfully.');
+            ->with('success', 'Usuario  creado correctamente.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($uuid)
     {
-        $user = User::find($id);
-
+        $user = \App\Models\User::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
         return view('user.show', compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($uuid)
     {
         $rols =  \App\Models\Rol::where('status', '=', 1)->pluck('nombre', 'id');
         $tipo_documentos = \App\Models\TipoDocumento::where('status', '=', 1)->pluck('nombre', 'id');
-        $user = User::find($id);
+        $user = \App\Models\User::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
 
         return view('user.edit', compact('user', 'rols', 'tipo_documentos'));
     }
@@ -89,26 +87,30 @@ class UserController extends Controller
      * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, \App\Models\User $user)
     {
-        request()->validate(User::$rules);
+        request()->validate(\App\Models\User::$rules);
 
         $user->update($request->all());
 
         return redirect()->route('user.index')
-            ->with('success', 'User updated successfully');
+            ->with('success', 'Usuario editado Correctamente');
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $user = User::find($id)->delete();
+        $user = \App\Models\User::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+        if (!empty($user)) {
+            $user->status = 0;
+            $user->update();
+        }
 
         return redirect()->route('user.index')
-            ->with('success', 'User deleted successfully');
+            ->with('success', 'Usuario Eliminado Correctamente');
     }
 }

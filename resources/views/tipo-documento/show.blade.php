@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-{{ $tipoDocumento->name ?? 'Show Tipo Documento' }}
+{{ $tipoDocumento->nombre ?? 'Show Tipo Documento' }}
 @endsection
 
 @section('content')

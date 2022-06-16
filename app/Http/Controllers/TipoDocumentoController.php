@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 
 /**
@@ -18,7 +17,7 @@ class TipoDocumentoController extends Controller
      */
     public function index()
     {
-        $tipoDocumentos = TipoDocumento::paginate();
+        $tipoDocumentos = \App\Models\TipoDocumento::paginate();
 
         return view('tipo-documento.index', compact('tipoDocumentos'))
             ->with('i', (request()->input('page', 1) - 1) * $tipoDocumentos->perPage());
@@ -31,7 +30,7 @@ class TipoDocumentoController extends Controller
      */
     public function create()
     {
-        $tipoDocumento = new TipoDocumento();
+        $tipoDocumento = new \App\Models\TipoDocumento();
         return view('tipo-documento.create', compact('tipoDocumento'));
     }
 
@@ -43,9 +42,9 @@ class TipoDocumentoController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(TipoDocumento::$rules);
+        request()->validate(\App\Models\TipoDocumento::$rules);
 
-        $tipoDocumento = TipoDocumento::create($request->all());
+        $tipoDocumento = \App\Models\TipoDocumento::create($request->all());
 
         return redirect()->route('tipo-documento.index')
             ->with('success', 'Tipo Documento creado correctamente.');
@@ -54,25 +53,24 @@ class TipoDocumentoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(string $uuid)
     {
-        $tipoDocumento = TipoDocumento::find($id);
-
+        $tipoDocumento = \App\Models\TipoDocumento::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
         return view('tipo-documento.show', compact('tipoDocumento'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(string $uuid)
     {
-        $tipoDocumento = TipoDocumento::find($id);
+        $tipoDocumento = \App\Models\TipoDocumento::where('uuid', '=', $uuid)->where('status', '=', 1);
 
         return view('tipo-documento.edit', compact('tipoDocumento'));
     }
@@ -84,9 +82,9 @@ class TipoDocumentoController extends Controller
      * @param  TipoDocumento $tipoDocumento
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TipoDocumento $tipoDocumento)
+    public function update(Request $request, \App\Models\TipoDocumento $tipoDocumento)
     {
-        request()->validate(TipoDocumento::$rules);
+        request()->validate(\App\Models\TipoDocumento::$rules);
 
         $tipoDocumento->update($request->all());
 
@@ -95,13 +93,13 @@ class TipoDocumentoController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(string $uuid)
     {
-        $tipoDocumento = TipoDocumento::find($id)->delete();
+        $tipoDocumento = \App\Models\TipoDocumento::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
 
         return redirect()->route('tipo-documento.index')
             ->with('success', 'TipoDocumento deleted successfully');
