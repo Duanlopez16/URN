@@ -35,11 +35,11 @@
                     </div>
                     <div class="form-group">
                         <strong>Rol:</strong>
-                        {{ $user->rol_id }}
+                        {{ $user->nombre }}
                     </div>
                     <div class="form-group">
                         <strong>Tipo Documento:</strong>
-                        {{ $user->tipo_documento_id }}
+                        {{ $user->abreviatura }}
                     </div>
                     <div class="form-group">
                         <strong>Documento:</strong>

@@ -42,7 +42,6 @@ User
                                     <th>Rol</th>
                                     <th>Tipo Documento</th>
                                     <th>Documento</th>
-                                    <th>Direccion</th>
                                     <th>Telefono</th>
 
                                     <th></th>
@@ -56,10 +55,9 @@ User
                                     <td>{{ $user->uuid }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->rol_id }}</td>
-                                    <td>{{ $user->tipo_documento_id }}</td>
+                                    <td>{{ $user->nombre }}</td>
+                                    <td>{{ $user->abreviatura }}</td>
                                     <td>{{ $user->documento }}</td>
-                                    <td>{{ $user->direccion }}</td>
                                     <td>{{ $user->telefono }}</td>
 
                                     <td>

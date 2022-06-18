@@ -15,7 +15,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = \App\Models\User::Where('status', '=', 1)->where('id', '!=', auth()->id())->paginate();
+
+        $users =  \Illuminate\Support\Facades\DB::table('users')
+            ->join('rol', 'users.rol_id', '=', 'rol.id')
+            ->join('tipo_documento', 'users.tipo_documento_id', '=', 'tipo_documento.id')
+            ->select('users.*', 'tipo_documento.abreviatura', 'rol.nombre')
+            ->where('users.id', '!=', auth()->id())
+            ->where('users.status', '=', 1)
+            ->paginate();
 
         return view('user.index', compact('users'))
             ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
@@ -59,7 +66,14 @@ class UserController extends Controller
      */
     public function show(string $uuid)
     {
-        $user = \App\Models\User::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+
+        $user =  \Illuminate\Support\Facades\DB::table('users')
+            ->join('rol', 'users.rol_id', '=', 'rol.id')
+            ->join('tipo_documento', 'users.tipo_documento_id', '=', 'tipo_documento.id')
+            ->select('users.*', 'tipo_documento.abreviatura', 'rol.nombre')
+            ->where('users.uuid', '=', $uuid)
+            ->where('users.status', '=', 1)
+            ->first();
         return view('user.show', compact('user'));
     }
 
