@@ -8,6 +8,9 @@ namespace App\Http\Controllers;
  */
 class TipoDocumentoController extends Controller
 {
+
+    const ROUTE_BASE = 'tipo-documento';
+
     /**
      * Display a listing of the resource.
      *
@@ -15,10 +18,16 @@ class TipoDocumentoController extends Controller
      */
     public function index()
     {
-        $tipoDocumentos = \App\Models\TipoDocumento::where('status', '=', 1)->paginate();
+        try {
+            $tipoDocumentos = \App\Models\TipoDocumento::where('status', '=', 1)->paginate();
 
-        return view('tipo-documento.index', compact('tipoDocumentos'))
-            ->with('i', (request()->input('page', 1) - 1) * $tipoDocumentos->perPage());
+            return view('tipo-documento.index', compact('tipoDocumentos'))
+                ->with('i', (request()->input('page', 1) - 1) * $tipoDocumentos->perPage());
+        } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -28,8 +37,14 @@ class TipoDocumentoController extends Controller
      */
     public function create()
     {
-        $tipoDocumento = new \App\Models\TipoDocumento();
-        return view('tipo-documento.create', compact('tipoDocumento'));
+        try {
+            $tipoDocumento = new \App\Models\TipoDocumento();
+            return view('tipo-documento.create', compact('tipoDocumento'));
+        } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -40,12 +55,18 @@ class TipoDocumentoController extends Controller
      */
     public function store(\Illuminate\Http\Request $request)
     {
-        request()->validate(\App\Models\TipoDocumento::$rules);
+        try {
+            request()->validate(\App\Models\TipoDocumento::$rules);
 
-        $tipoDocumento = \App\Models\TipoDocumento::create($request->all());
+            $tipoDocumento = \App\Models\TipoDocumento::create($request->all());
 
-        return redirect()->route('tipo-documento.index')
-            ->with('success', 'Tipo Documento creado correctamente.');
+            return redirect()->route('tipo-documento.index')
+                ->with('success', 'Tipo Documento creado correctamente.');
+        } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -56,8 +77,21 @@ class TipoDocumentoController extends Controller
      */
     public function show(string $uuid)
     {
-        $tipoDocumento = \App\Models\TipoDocumento::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
-        return view('tipo-documento.show', compact('tipoDocumento'));
+        $route = self::ROUTE_BASE;
+
+        try {
+            $tipoDocumento = \App\Models\TipoDocumento::where('uuid', '=', $uuid)
+                ->where('status', '=', 1)
+                ->first();
+            if (!empty($tipoDocumento)) {
+                return view('tipo-documento.show', compact('tipoDocumento'));
+            } else {
+                return view('errors.notfound', compact('route'));
+            }
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -68,9 +102,19 @@ class TipoDocumentoController extends Controller
      */
     public function edit(string $uuid)
     {
-        $tipoDocumento = \App\Models\TipoDocumento::where('uuid', '=', $uuid)->where('status', '=', 1);
+        $route = self::ROUTE_BASE;
 
-        return view('tipo-documento.edit', compact('tipoDocumento'));
+        try {
+            $tipoDocumento = \App\Models\TipoDocumento::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            if (!empty($tipoDocumento)) {
+                return view('tipo-documento.edit', compact('tipoDocumento'));
+            } else {
+                return view('errors.notfound', compact('route'));
+            }
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -82,12 +126,17 @@ class TipoDocumentoController extends Controller
      */
     public function update(\Illuminate\Http\Request $request, \App\Models\TipoDocumento $tipoDocumento)
     {
-        request()->validate(\App\Models\TipoDocumento::$rules);
+        try {
+            request()->validate(\App\Models\TipoDocumento::$rules);
+            $tipoDocumento->update($request->all());
+            return redirect()->route('tipo-documento.index')
+                ->with('success', 'TipoDocumento editadro correctamente ');
+        } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
 
-        $tipoDocumento->update($request->all());
-
-        return redirect()->route('tipo-documento.index')
-            ->with('success', 'TipoDocumento updated successfully');
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -97,9 +146,21 @@ class TipoDocumentoController extends Controller
      */
     public function destroy(string $uuid)
     {
-        $tipoDocumento = \App\Models\TipoDocumento::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+        $route = self::ROUTE_BASE;
 
-        return redirect()->route('tipo-documento.index')
-            ->with('success', 'TipoDocumento deleted successfully');
+        try {
+            $tipoDocumento = \App\Models\TipoDocumento::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            if (!empty($tipoDocumento)) {
+                $tipoDocumento->status = 0;
+                $tipoDocumento->update();
+                return redirect()->route('tipo-documento.index')
+                    ->with('success', 'TipoDocumento eliminado correctamente.');
+            } else {
+                return view('errors.notfound', compact('route'));
+            }
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 }

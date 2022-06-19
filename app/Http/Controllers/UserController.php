@@ -8,6 +8,9 @@ namespace App\Http\Controllers;
  */
 class UserController extends Controller
 {
+
+    const ROUTE_BASE = 'user';
+
     /**
      * Display a listing of the resource.
      *
@@ -15,17 +18,22 @@ class UserController extends Controller
      */
     public function index()
     {
+        try {
+            $users =  \Illuminate\Support\Facades\DB::table('users')
+                ->join('rol', 'users.rol_id', '=', 'rol.id')
+                ->join('tipo_documento', 'users.tipo_documento_id', '=', 'tipo_documento.id')
+                ->select('users.*', 'tipo_documento.abreviatura', 'rol.nombre')
+                ->where('users.id', '!=', auth()->id())
+                ->where('users.status', '=', 1)
+                ->paginate();
 
-        $users =  \Illuminate\Support\Facades\DB::table('users')
-            ->join('rol', 'users.rol_id', '=', 'rol.id')
-            ->join('tipo_documento', 'users.tipo_documento_id', '=', 'tipo_documento.id')
-            ->select('users.*', 'tipo_documento.abreviatura', 'rol.nombre')
-            ->where('users.id', '!=', auth()->id())
-            ->where('users.status', '=', 1)
-            ->paginate();
-
-        return view('user.index', compact('users'))
-            ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
+            return view('user.index', compact('users'))
+                ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
+        } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -35,10 +43,16 @@ class UserController extends Controller
      */
     public function create()
     {
-        $rols =  \App\Models\Rol::where('status', '=', 1)->pluck('nombre', 'id');
-        $tipo_documentos = \App\Models\TipoDocumento::where('status', '=', 1)->pluck('nombre', 'id');
-        $user = new \App\Models\User();
-        return view('user.create', compact('user', 'rols', 'tipo_documentos'));
+        try {
+            $rols =  \App\Models\Rol::where('status', '=', 1)->pluck('nombre', 'id');
+            $tipo_documentos = \App\Models\TipoDocumento::where('status', '=', 1)->pluck('nombre', 'id');
+            $user = new \App\Models\User();
+            return view('user.create', compact('user', 'rols', 'tipo_documentos'));
+        } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -49,13 +63,19 @@ class UserController extends Controller
      */
     public function store(\Illuminate\Http\Request $request)
     {
-        request()->validate(\App\Models\User::$rules);
-        $data = $request->all();
-        $data['password'] = \Illuminate\Support\Facades\Hash::make($data['documento']);
-        $user = \App\Models\User::create($data);
+        try {
+            request()->validate(\App\Models\User::$rules);
+            $data = $request->all();
+            $data['password'] = \Illuminate\Support\Facades\Hash::make($data['documento']);
+            $user = \App\Models\User::create($data);
 
-        return redirect()->route('user.index')
-            ->with('success', 'Usuario  creado correctamente.');
+            return redirect()->route('user.index')
+                ->with('success', 'Usuario  creado correctamente.');
+        } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -66,15 +86,25 @@ class UserController extends Controller
      */
     public function show(string $uuid)
     {
+        $route = self::ROUTE_BASE;
 
-        $user =  \Illuminate\Support\Facades\DB::table('users')
-            ->join('rol', 'users.rol_id', '=', 'rol.id')
-            ->join('tipo_documento', 'users.tipo_documento_id', '=', 'tipo_documento.id')
-            ->select('users.*', 'tipo_documento.abreviatura', 'rol.nombre')
-            ->where('users.uuid', '=', $uuid)
-            ->where('users.status', '=', 1)
-            ->first();
-        return view('user.show', compact('user'));
+        try {
+            $user =  \Illuminate\Support\Facades\DB::table('users')
+                ->join('rol', 'users.rol_id', '=', 'rol.id')
+                ->join('tipo_documento', 'users.tipo_documento_id', '=', 'tipo_documento.id')
+                ->select('users.*', 'tipo_documento.abreviatura', 'rol.nombre')
+                ->where('users.uuid', '=', $uuid)
+                ->where('users.status', '=', 1)
+                ->first();
+            if (!empty($user)) {
+                return view('user.show', compact('user'));
+            } else {
+                return view('errors.notfound', compact('route'));
+            }
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -85,11 +115,21 @@ class UserController extends Controller
      */
     public function edit(string $uuid)
     {
-        $rols =  \App\Models\Rol::where('status', '=', 1)->pluck('nombre', 'id');
-        $tipo_documentos = \App\Models\TipoDocumento::where('status', '=', 1)->pluck('nombre', 'id');
-        $user = \App\Models\User::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+        $route = self::ROUTE_BASE;
 
-        return view('user.edit', compact('user', 'rols', 'tipo_documentos'));
+        try {
+            $rols =  \App\Models\Rol::where('status', '=', 1)->pluck('nombre', 'id');
+            $tipo_documentos = \App\Models\TipoDocumento::where('status', '=', 1)->pluck('nombre', 'id');
+            $user = \App\Models\User::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            if (!empty($user)) {
+                return view('user.edit', compact('user', 'rols', 'tipo_documentos'));
+            } else {
+                return view('errors.notfound', compact('route'));
+            }
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -101,12 +141,18 @@ class UserController extends Controller
      */
     public function update(\Illuminate\Http\Request $request, \App\Models\User $user)
     {
-        request()->validate(\App\Models\User::$rules);
+        try {
+            request()->validate(\App\Models\User::$rules);
 
-        $user->update($request->all());
+            $user->update($request->all());
 
-        return redirect()->route('user.index')
-            ->with('success', 'Usuario editado Correctamente');
+            return redirect()->route('user.index')
+                ->with('success', 'Usuario editado Correctamente');
+        } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -116,13 +162,21 @@ class UserController extends Controller
      */
     public function destroy(string $uuid)
     {
-        $user = \App\Models\User::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
-        if (!empty($user)) {
-            $user->status = 0;
-            $user->update();
-        }
+        $route = self::ROUTE_BASE;
 
-        return redirect()->route('user.index')
-            ->with('success', 'Usuario Eliminado Correctamente');
+        try {
+            $user = \App\Models\User::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            if (!empty($user)) {
+                $user->status = 0;
+                $user->update();
+                return redirect()->route('user.index')
+                    ->with('success', 'Usuario Eliminado Correctamente');
+            } else {
+                return view('errors.notfound', compact('route'));
+            }
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 }

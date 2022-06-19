@@ -9,6 +9,8 @@ namespace App\Http\Controllers;
 class CategoriaController extends Controller
 {
 
+    const ROUTE_BASE = 'categoria';
+
     /**
      * __construct
      *
@@ -26,10 +28,15 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categoria = \App\Models\Categoria::Where('status', '=', 1)->paginate();
-
-        return view('categorium.index', compact('categoria'))
-            ->with('i', (request()->input('page', 1) - 1) * $categoria->perPage());
+        try {
+            $categoria = \App\Models\Categoria::Where('status', '=', 1)->paginate();
+            return view('categorium.index', compact('categoria'))
+                ->with('i', (request()->input('page', 1) - 1) * $categoria->perPage());
+        } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -39,8 +46,14 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        $categorium = new \App\Models\Categoria();
-        return view('categorium.create', compact('categorium'));
+        $route = self::ROUTE_BASE;
+        try {
+            $categorium = new \App\Models\Categoria();
+            return view('categorium.create', compact('categorium'));
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -51,12 +64,17 @@ class CategoriaController extends Controller
      */
     public function store(\Illuminate\Http\Request $request)
     {
-        request()->validate(\App\Models\Categoria::$rules);
+        $route = self::ROUTE_BASE;
+        try {
+            request()->validate(\App\Models\Categoria::$rules);
+            $categorium = \App\Models\Categoria::create($request->all());
 
-        $categorium = \App\Models\Categoria::create($request->all());
-
-        return redirect()->route('categoria.index')
-            ->with('success', 'Categoria creada correctamente.');
+            return redirect()->route('categoria.index')
+                ->with('success', 'Categoria creada correctamente.');
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -65,13 +83,19 @@ class CategoriaController extends Controller
      * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function show($uuid)
+    public function show(string $uuid)
     {
-        $categorium = \App\Models\Categoria::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
-        if (!empty($categorium)) {
-            return view('categorium.show', compact('categorium'));
-        } else {
-            return response()->view('errors.404', [], 404);
+        $route = self::ROUTE_BASE;
+        try {
+            $categorium = \App\Models\Categoria::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            if (!empty($categorium)) {
+                return view('categorium.show', compact('categorium'));
+            } else {
+                return view('errors.notfound', compact('route'));
+            }
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
         }
     }
 
@@ -81,11 +105,20 @@ class CategoriaController extends Controller
      * @param  string $uuid
      * @return \Illuminate\Http\Response
      */
-    public function edit($uuid)
+    public function edit(string $uuid)
     {
-        $categorium = \App\Models\Categoria::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
-
-        return view('categorium.edit', compact('categorium'));
+        $route = self::ROUTE_BASE;
+        try {
+            $categorium = \App\Models\Categoria::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            if (!empty($categorium)) {
+                return view('categorium.edit', compact('categorium'));
+            } else {
+                return view('errors.notfound', compact('route'));
+            }
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -97,12 +130,16 @@ class CategoriaController extends Controller
      */
     public function update(\Illuminate\Http\Request $request, \App\Models\Categoria $categorium)
     {
-        request()->validate(\App\Models\Categoria::$rules);
-
-        $categorium->update($request->all());
-
-        return redirect()->route('categoria.index')
-            ->with('success', 'Categoria editada correctamente');
+        $route = self::ROUTE_BASE;
+        try {
+            request()->validate(\App\Models\Categoria::$rules);
+            $categorium->update($request->all());
+            return redirect()->route('categoria.index')
+                ->with('success', 'Categoria editada correctamente');
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -110,14 +147,22 @@ class CategoriaController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function destroy($uuid)
+    public function destroy(string $uuid)
     {
-        $categoria = \App\Models\Categoria::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
-        if (!empty($categoria)) {
-            $categoria->status = 0;
-            $categoria->update();
+        $route = self::ROUTE_BASE;
+        try {
+            $categoria = \App\Models\Categoria::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            if (!empty($categoria)) {
+                $categoria->status = 0;
+                $categoria->update();
+                return redirect()->route('categoria.index')
+                    ->with('success', 'Categoria Eliminada correctamente');
+            } else {
+                return view('errors.notfound', compact('route'));
+            }
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
         }
-        return redirect()->route('categoria.index')
-            ->with('success', 'Categoria Eliminada correctamente');
     }
 }

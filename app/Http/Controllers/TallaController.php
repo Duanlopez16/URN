@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Talla;
-use Illuminate\Http\Request;
-
 /**
  * Class TallaController
  * @package App\Http\Controllers
@@ -13,6 +10,7 @@ class TallaController extends Controller
 {
 
     const ROUTE_BASE = 'talla';
+
     /**
      * Display a listing of the resource.
      *
@@ -20,10 +18,16 @@ class TallaController extends Controller
      */
     public function index()
     {
-        $tallas = Talla::where('status', '=', 1)->paginate();
+        $route = self::ROUTE_BASE;
 
-        return view('talla.index', compact('tallas'))
-            ->with('i', (request()->input('page', 1) - 1) * $tallas->perPage());
+        try {
+            $tallas = \App\Models\Talla::where('status', '=', 1)->paginate();
+            return view('talla.index', compact('tallas'))
+                ->with('i', (request()->input('page', 1) - 1) * $tallas->perPage());
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -33,8 +37,14 @@ class TallaController extends Controller
      */
     public function create()
     {
-        $talla = new Talla();
-        return view('talla.create', compact('talla'));
+        $route = self::ROUTE_BASE;
+        try {
+            $talla = new \App\Models\Talla();
+            return view('talla.create', compact('talla'));
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -43,14 +53,19 @@ class TallaController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(\Illuminate\Http\Request $request)
     {
-        request()->validate(Talla::$rules);
+        $route = self::ROUTE_BASE;
 
-        $talla = Talla::create($request->all());
-
-        return redirect()->route('talla.index')
-            ->with('success', 'Talla created successfully.');
+        try {
+            request()->validate(\App\Models\Talla::$rules);
+            $talla = \App\Models\Talla::create($request->all());
+            return redirect()->route('talla.index')
+                ->with('success', 'Talla creada correctamente.');
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
     }
 
     /**
@@ -61,12 +76,19 @@ class TallaController extends Controller
      */
     public function show(string $uuid)
     {
-        $talla = Talla::where('status', '=', 1)->where('uuid', '=', $uuid)->first();
-        if (!empty($talla)) {
-            return view('talla.show', compact('talla'));
-        } else {
-            $route = self::ROUTE_BASE;
-            return view('errors.notfound', compact('route'));
+        $route = self::ROUTE_BASE;
+
+        try {
+            $talla = \App\Models\Talla::where('status', '=', 1)->where('uuid', '=', $uuid)->first();
+            if (!empty($talla)) {
+                return view('talla.show', compact('talla'));
+            } else {
+                $route = self::ROUTE_BASE;
+                return view('errors.notfound', compact('route'));
+            }
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
         }
     }
 
@@ -80,7 +102,7 @@ class TallaController extends Controller
     {
         $route = self::ROUTE_BASE;
         try {
-            $talla = Talla::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            $talla = \App\Models\Talla::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
             if (!empty($talla)) {
                 return view('talla.edit', compact('talla'));
             } else {
@@ -99,13 +121,15 @@ class TallaController extends Controller
      * @param  Talla $talla
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Talla $talla)
+    public function update(\Illuminate\Http\Request $request, \App\Models\Talla $talla)
     {
+        $route = self::ROUTE_BASE;
+
         try {
-            request()->validate(Talla::$rules);
+            request()->validate(\App\Models\Talla::$rules);
             $talla->update($request->all());
             return redirect()->route('talla.index')
-                ->with('success', 'Talla updated successfully');
+                ->with('success', 'Talla editada correctamente.');
         } catch (\Exception $ex) {
             $route = self::ROUTE_BASE;
             $error = $ex->getMessage();
@@ -121,14 +145,13 @@ class TallaController extends Controller
     public function destroy(string $uuid)
     {
         $route = self::ROUTE_BASE;
-
         try {
-            $talla = Talla::where('status', '=', '1')->where('uuid', '=', $uuid)->first();
+            $talla = \App\Models\Talla::where('status', '=', '1')->where('uuid', '=', $uuid)->first();
             if (!empty($talla)) {
                 $talla->status = 0;
                 $talla->update();
                 return redirect()->route('talla.index')
-                    ->with('success', 'Talla deleted successfully');
+                    ->with('success', 'Talla eliminada correctamente.');
             } else {
                 return view('errors.notfound', compact('route'));
             }

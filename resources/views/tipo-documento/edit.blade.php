@@ -1,31 +1,31 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Update Tipo Documento
+Update Tipo Documento
 @endsection
 
 @section('content')
-    <section class="content container-fluid">
-        <div class="">
-            <div class="col-md-12">
+<section class="content container-fluid">
+    <div class="">
+        <div class="col-md-12">
 
-                @includeif('partials.errors')
+            @includeif('partials.errors')
 
-                <div class="card card-default">
-                    <div class="card-header">
-                        <span class="card-title">Update Tipo Documento</span>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('tipo-documentos.update', $tipoDocumento->id) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            @csrf
+            <div class="card card-default">
+                <div class="card-header">
+                    <span class="card-title">Update Tipo Documento</span>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ route('tipo-documento.update', $tipoDocumento->id) }}" role="form" enctype="multipart/form-data">
+                        {{ method_field('PATCH') }}
+                        @csrf
 
-                            @include('tipo-documento.form')
+                        @include('tipo-documento.form')
 
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 @endsection
