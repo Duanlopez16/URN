@@ -80,6 +80,14 @@ class Producto extends Model
     }
 
     /**
+     * The roles that belong to the user.
+     */
+    public function tallasProducto()
+    {
+        return $this->belongsToMany('App\Models\TallasProducto', 'tallas_productos', 'producto_id', 'talla_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function user_creator()

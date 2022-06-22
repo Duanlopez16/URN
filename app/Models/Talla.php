@@ -81,6 +81,14 @@ class Talla extends Model
     }
 
     /**
+     * The roles that belong to the user.
+     */
+    public function tallasProductos()
+    {
+        return $this->belongsToMany('App\Models\TallasProducto', 'tallas_productos', 'talla_id');
+    }
+
+    /**
      * boot
      *
      * @return void

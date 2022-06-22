@@ -52,7 +52,7 @@ Producto
 
                                     <td>{{ $producto->uuid }}</td>
                                     <td>{{ $producto->nombre }}</td>
-                                    <td>{{ $producto->color }}</td>
+                                    <td style="background-color: {{ $producto->color }}"></td>
                                     <td>{{ $producto->precio }}</td>
                                     <td>{{ $producto->descripcion }}</td>
                                     <td>{{ $producto->id_categoria }}</td>
@@ -73,7 +73,7 @@ Producto
                     </div>
                 </div>
             </div>
-            {!! $productos->links() !!}
+            {!! $productos->links('pagination::bootstrap-5') !!}
         </div>
     </div>
 </div>

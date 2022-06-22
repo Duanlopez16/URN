@@ -78,7 +78,6 @@ class TipoDocumentoController extends Controller
     public function show(string $uuid)
     {
         $route = self::ROUTE_BASE;
-
         try {
             $tipoDocumento = \App\Models\TipoDocumento::where('uuid', '=', $uuid)
                 ->where('status', '=', 1)

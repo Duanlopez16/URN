@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use \App\Models\Producto;
-
 /**
  * Class ProductoController
  * @package App\Http\Controllers
@@ -60,9 +58,9 @@ class ProductoController extends Controller
     {
         try {
             request()->validate(\App\Models\Producto::$rules);
-            echo json_encode($request->all());
-            die;
+            $data = $request->all();
             $producto = \App\Models\Producto::create($request->all());
+            $producto->tallasProducto()->sync($data['tallas']);
             return redirect()->route('producto.index')
                 ->with('success', 'Producto creado correctamente.');
         } catch (\Exception $ex) {
@@ -101,7 +99,6 @@ class ProductoController extends Controller
     {
         $route = self::ROUTE_BASE;
         try {
-
             $producto = \App\Models\Producto::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
             if (!empty($producto)) {
                 $categorias = \App\Models\categoria::where('status', '=', 1)->pluck('nombre', 'id');
@@ -123,7 +120,7 @@ class ProductoController extends Controller
      * @param  Producto $producto
      * @return \Illuminate\Http\Response
      */
-    public function update(\Illuminate\Http\Request $request, Producto $producto)
+    public function update(\Illuminate\Http\Request $request, \App\Models\Producto $producto)
     {
         try {
             request()->validate(\App\Models\Producto::$rules);
