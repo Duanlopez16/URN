@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use \App\Models\Producto;
+
 /**
- * Class TallaController
+ * Class ProductoController
  * @package App\Http\Controllers
  */
-class TallaController extends Controller
+class ProductoController extends Controller
 {
-
-    const ROUTE_BASE = 'talla';
+    const ROUTE_BASE = 'producto';
 
     /**
      * Display a listing of the resource.
@@ -18,13 +19,12 @@ class TallaController extends Controller
      */
     public function index()
     {
-        $route = self::ROUTE_BASE;
-
         try {
-            $tallas = \App\Models\Talla::where('status', '=', 1)->paginate();
-            return view('talla.index', compact('tallas'))
-                ->with('i', (request()->input('page', 1) - 1) * $tallas->perPage());
+            $productos = \App\Models\Producto::where('status', '=', 1)->paginate();
+            return view('producto.index', compact('productos'))
+                ->with('i', (request()->input('page', 1) - 1) * $productos->perPage());
         } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
             $error = $ex->getMessage();
             return view('errors.error', compact('route', 'error'));
         }
@@ -37,11 +37,14 @@ class TallaController extends Controller
      */
     public function create()
     {
-        $route = self::ROUTE_BASE;
         try {
-            $talla = new \App\Models\Talla();
-            return view('talla.create', compact('talla'));
+            $producto = new \App\Models\Producto();
+            $categorias = \App\Models\categoria::where('status', '=', 1)->pluck('nombre', 'id');
+            $tallas = \App\Models\Talla::where('status', '=', 1)->get(['id', 'nombre']);
+
+            return view('producto.create', compact('producto', 'categorias', 'tallas'));
         } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
             $error = $ex->getMessage();
             return view('errors.error', compact('route', 'error'));
         }
@@ -55,14 +58,15 @@ class TallaController extends Controller
      */
     public function store(\Illuminate\Http\Request $request)
     {
-        $route = self::ROUTE_BASE;
-
         try {
-            request()->validate(\App\Models\Talla::$rules);
-            $talla = \App\Models\Talla::create($request->all());
-            return redirect()->route('talla.index')
-                ->with('success', 'Talla creada correctamente.');
+            request()->validate(\App\Models\Producto::$rules);
+            echo json_encode($request->all());
+            die;
+            $producto = \App\Models\Producto::create($request->all());
+            return redirect()->route('producto.index')
+                ->with('success', 'Producto creado correctamente.');
         } catch (\Exception $ex) {
+            $route = self::ROUTE_BASE;
             $error = $ex->getMessage();
             return view('errors.error', compact('route', 'error'));
         }
@@ -79,12 +83,8 @@ class TallaController extends Controller
         $route = self::ROUTE_BASE;
 
         try {
-            $talla = \App\Models\Talla::where('status', '=', 1)->where('uuid', '=', $uuid)->first();
-            if (!empty($talla)) {
-                return view('talla.show', compact('talla'));
-            } else {
-                return view('errors.notfound', compact('route'));
-            }
+            $producto = \App\Models\Producto::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            return view('producto.show', compact('producto'));
         } catch (\Exception $ex) {
             $error = $ex->getMessage();
             return view('errors.error', compact('route', 'error'));
@@ -101,9 +101,12 @@ class TallaController extends Controller
     {
         $route = self::ROUTE_BASE;
         try {
-            $talla = \App\Models\Talla::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
-            if (!empty($talla)) {
-                return view('talla.edit', compact('talla'));
+
+            $producto = \App\Models\Producto::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            if (!empty($producto)) {
+                $categorias = \App\Models\categoria::where('status', '=', 1)->pluck('nombre', 'id');
+                $tallas = \App\Models\Talla::where('status', '=', 1)->get(['id', 'nombre']);
+                return view('producto.edit', compact('producto', 'tallas', 'categorias'));
             } else {
                 return view('errors.notfound', compact('route'));
             }
@@ -117,18 +120,16 @@ class TallaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  Talla $talla
+     * @param  Producto $producto
      * @return \Illuminate\Http\Response
      */
-    public function update(\Illuminate\Http\Request $request, \App\Models\Talla $talla)
+    public function update(\Illuminate\Http\Request $request, Producto $producto)
     {
-        $route = self::ROUTE_BASE;
-
         try {
-            request()->validate(\App\Models\Talla::$rules);
-            $talla->update($request->all());
-            return redirect()->route('talla.index')
-                ->with('success', 'Talla editada correctamente.');
+            request()->validate(\App\Models\Producto::$rules);
+            $producto->update($request->all());
+            return redirect()->route('producto.index')
+                ->with('success', 'Producto editado correctamente.');
         } catch (\Exception $ex) {
             $route = self::ROUTE_BASE;
             $error = $ex->getMessage();
@@ -137,20 +138,21 @@ class TallaController extends Controller
     }
 
     /**
-     * @param string $id
+     * @param string $uuid
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function destroy(string $uuid)
     {
         $route = self::ROUTE_BASE;
+
         try {
-            $talla = \App\Models\Talla::where('status', '=', '1')->where('uuid', '=', $uuid)->first();
-            if (!empty($talla)) {
-                $talla->status = 0;
-                $talla->update();
-                return redirect()->route('talla.index')
-                    ->with('success', 'Talla eliminada correctamente.');
+            $producto = \App\Models\Producto::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            if (!empty($producto)) {
+                $producto->status = 0;
+                $producto->update();
+                return redirect()->route('producto.index')
+                    ->with('success', 'Producto eliminado correctamente.');
             } else {
                 return view('errors.notfound', compact('route'));
             }

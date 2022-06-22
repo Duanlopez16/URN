@@ -54,6 +54,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('talla.index') }}">{{ __('Tallas') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('producto.index') }}">{{ __('Productos') }}</a>
+                        </li>
                     </ul>
                     @endguest
 

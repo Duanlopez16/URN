@@ -24,5 +24,6 @@ Route::resource('rol', \App\Http\Controllers\RolController::class)->middleware('
 Route::resource('tipo-documento', \App\Http\Controllers\TipoDocumentoController::class)->middleware('auth');
 Route::resource('user', \App\Http\Controllers\UserController::class)->middleware('auth');
 Route::resource('talla', \App\Http\Controllers\TallaController::class)->middleware('auth');
+Route::resource('producto', \App\Http\Controllers\ProductoController::class)->middleware('auth');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
