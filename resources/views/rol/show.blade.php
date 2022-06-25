@@ -31,6 +31,10 @@
                 <div class="card-body">
 
                     <div class="form-group">
+                        <strong>UUID:</strong>
+                        {{ $rol->uuid??'' }}
+                    </div>
+                    <div class="form-group">
                         <strong>Nombre:</strong>
                         {{ $rol->nombre??'' }}
                     </div>

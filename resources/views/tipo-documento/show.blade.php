@@ -20,7 +20,10 @@
                 </div>
 
                 <div class="card-body">
-
+                    <div class="form-group">
+                        <strong>UUID:</strong>
+                        {{ $tipoDocumento->uuid }}
+                    </div>
                     <div class="form-group">
                         <strong>Nombre:</strong>
                         {{ $tipoDocumento->nombre }}

@@ -69,7 +69,7 @@ Tipo Documento
                     </div>
                 </div>
             </div>
-            {!! $tipoDocumentos->links() !!}
+            {!! $tipoDocumentos->links('pagination::bootstrap-5') !!}
         </div>
     </div>
 </div>

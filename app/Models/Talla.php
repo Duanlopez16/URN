@@ -85,7 +85,7 @@ class Talla extends Model
      */
     public function tallasProductos()
     {
-        return $this->belongsToMany('App\Models\TallasProducto', 'tallas_productos', 'talla_id');
+        return $this->belongsToMany('App\Models\TallasProducto', 'tallas_productos', 'talla_id', 'producto_id');
     }
 
     /**

@@ -68,7 +68,7 @@ Categorium
                     </div>
                 </div>
             </div>
-            {!! $categoria->links() !!}
+            {!! $categoria->links('pagination::bootstrap-5') !!}
         </div>
     </div>
 </div>

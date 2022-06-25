@@ -30,7 +30,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Producto extends Model
 {
-
     /**
      * table
      *
@@ -60,7 +59,7 @@ class Producto extends Model
      */
     public function categorium()
     {
-        return $this->hasOne('App\Models\Categorium', 'id', 'id_categoria');
+        return $this->hasOne('App\Models\Categoria', 'id', 'id_categoria');
     }
 
     /**
@@ -71,18 +70,11 @@ class Producto extends Model
         return $this->hasOne('App\Models\Talla', 'id', 'id_categoria');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tallasProductos()
-    {
-        return $this->hasMany('App\Models\TallasProducto', 'producto_id', 'id');
-    }
 
     /**
      * The roles that belong to the user.
      */
-    public function tallasProducto()
+    public function tallasProductos()
     {
         return $this->belongsToMany('App\Models\TallasProducto', 'tallas_productos', 'producto_id', 'talla_id');
     }

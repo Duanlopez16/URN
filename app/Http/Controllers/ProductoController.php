@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 /**
  * Class ProductoController
  * @package App\Http\Controllers
@@ -20,7 +21,8 @@ class ProductoController extends Controller
         try {
             $productos = \App\Models\Producto::where('status', '=', 1)->paginate();
             return view('producto.index', compact('productos'))
-                ->with('i', (request()->input('page', 1) - 1) * $productos->perPage());
+                ->with(['categorium:id,nombre'])
+                ->with('i', (request()->input('page', 1) - 1) * $productos->perPage(), 'categorium:id,nombre');
         } catch (\Exception $ex) {
             $route = self::ROUTE_BASE;
             $error = $ex->getMessage();
@@ -60,7 +62,7 @@ class ProductoController extends Controller
             request()->validate(\App\Models\Producto::$rules);
             $data = $request->all();
             $producto = \App\Models\Producto::create($request->all());
-            $producto->tallasProducto()->sync($data['tallas']);
+            $producto->tallasProductos()->sync($data['tallas']);
             return redirect()->route('producto.index')
                 ->with('success', 'Producto creado correctamente.');
         } catch (\Exception $ex) {
@@ -81,7 +83,11 @@ class ProductoController extends Controller
         $route = self::ROUTE_BASE;
 
         try {
-            $producto = \App\Models\Producto::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            $producto = \App\Models\Producto::where('uuid', $uuid)
+                ->where('status',  1)
+                ->with(['categorium:id,nombre', 'tallasProductos:id,nombre'])
+                ->first();
+
             return view('producto.show', compact('producto'));
         } catch (\Exception $ex) {
             $error = $ex->getMessage();
@@ -99,8 +105,14 @@ class ProductoController extends Controller
     {
         $route = self::ROUTE_BASE;
         try {
-            $producto = \App\Models\Producto::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            $producto = \App\Models\Producto::where('uuid', '=', $uuid)
+                ->where('status', '=', 1)
+                ->with(['tallasProductos:id,nombre'])
+                ->first();
             if (!empty($producto)) {
+                $tallas = $producto->tallasProductos->toArray();
+                unset($producto->tallasProductos);
+                $producto->tallas = !empty($tallas) ? array_column($tallas, 'id') : [];
                 $categorias = \App\Models\categoria::where('status', '=', 1)->pluck('nombre', 'id');
                 $tallas = \App\Models\Talla::where('status', '=', 1)->get(['id', 'nombre']);
                 return view('producto.edit', compact('producto', 'tallas', 'categorias'));
@@ -124,7 +136,9 @@ class ProductoController extends Controller
     {
         try {
             request()->validate(\App\Models\Producto::$rules);
+            $data = $request->all();
             $producto->update($request->all());
+            $producto->tallasProductos()->sync($data['tallas']);
             return redirect()->route('producto.index')
                 ->with('success', 'Producto editado correctamente.');
         } catch (\Exception $ex) {
@@ -144,7 +158,7 @@ class ProductoController extends Controller
         $route = self::ROUTE_BASE;
 
         try {
-            $producto = \App\Models\Producto::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
+            $producto = \App\Models\Producto::where('uuid', $uuid)->where('status', 1)->first();
             if (!empty($producto)) {
                 $producto->status = 0;
                 $producto->update();

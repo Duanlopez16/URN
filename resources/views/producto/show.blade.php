@@ -14,7 +14,7 @@
                         <span class="card-title">Ver Producto</span>
                     </div>
                     <div class="float-right">
-                        <a class="btn btn-primary" href="{{ route('producto.index') }}"> Back</a>
+                        <a class="btn btn-primary" href="{{ route('producto.index') }}"> Regresar</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -28,7 +28,9 @@
                     </div>
                     <div class="form-group">
                         <strong>Color:</strong>
-                        {{ $producto->color }}
+                        <svg width="50" height="20">
+                            <rect width="50" height="20" style="fill: {{ $producto->color }}" />
+                        </svg>
                     </div>
                     <div class="form-group">
                         <strong>Precio:</strong>
@@ -39,8 +41,16 @@
                         {{ $producto->descripcion }}
                     </div>
                     <div class="form-group">
-                        <strong>Id Categoria:</strong>
-                        {{ $producto->id_categoria }}
+                        <strong> Categoria:</strong>
+                        {{ $producto->categorium->nombre }}
+                    </div>
+                    <div class="form-group">
+                        <strong> Tallas:</strong>
+                        <ul>
+                            @foreach ($producto->tallasProductos as $talla)
+                            <li> {{ $talla->nombre}}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>

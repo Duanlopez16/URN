@@ -32,7 +32,7 @@ class TallasProducto extends Model
      *
      * @var string
      */
-    protected $table = 'tallas_productos';
+    protected $table = 'talla';
 
     protected $perPage = 20;
 

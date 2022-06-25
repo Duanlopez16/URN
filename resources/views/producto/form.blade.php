@@ -1,6 +1,5 @@
     <div class="box box-info padding-1">
         <div class="box-body">
-
             <div class="form-group">
                 {{ Form::label('nombre') }}
                 {{ Form::text('nombre', $producto->nombre, ['class' => 'form-control' . ($errors->has('nombre') ? ' is-invalid' : ''), 'placeholder' => 'Nombre']) }}
@@ -27,18 +26,19 @@
                 {!! $errors->first('id_categoria', '<div class="invalid-feedback">:message</div>') !!}
             </div>
 
-            <br>
-            <div class="form-check" id="checkboxes">
+            <div class="form-group ">
+                {{ Form::label('Tallas') }}
+                <br>
                 @foreach ($tallas as $talla)
-                <input type="checkbox" class="checkbox" name="tallas[]" value="{{ $talla->id }}" />
-                <label class="whatever" for="{{ $talla->id }}">
+                <input type="checkbox" class="form-check-input " id="check{{$talla->id}}" name="tallas[]" value="{{ $talla->id }} " @if (!empty($producto->tallas) && in_array($talla->id, $producto->tallas))checked @endif />
+
+                <label class="btn-btn-online-primary" for="check{{ $talla->id }}">
                     <p class="serv-text"> {{ $talla->nombre }} </p>
                 </label>
                 @endforeach
+
             </div>
-
             <br>
-
         </div>
         <div class="box-footer mt20">
             <button type="submit" class="btn btn-primary">Submit</button>

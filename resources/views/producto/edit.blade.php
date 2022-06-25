@@ -19,9 +19,7 @@ Update Producto
                     <form method="POST" action="{{ route('producto.update', $producto->id) }}" role="form" enctype="multipart/form-data">
                         {{ method_field('PATCH') }}
                         @csrf
-
                         @include('producto.form')
-
                     </form>
                 </div>
             </div>
