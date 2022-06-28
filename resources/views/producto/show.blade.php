@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <strong>Color:</strong>
-                        <svg width="50" height="20">
+                        <svg width="50" height="20" style="border:2px solid black;">
                             <rect width="50" height="20" style="fill: {{ $producto->color }}" />
                         </svg>
                     </div>
