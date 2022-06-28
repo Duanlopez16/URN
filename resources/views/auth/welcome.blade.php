@@ -10,8 +10,8 @@
     <title>URN</title>
 
     <!-- Fonts -->
-    <link rel="icon" href="https://i.postimg.cc/HsJtmDk0/logo.jpg" type="image/png">
-
+    <link rel="icon" href="imagenes/logo.png" type="image/png">
+    <link href="imagenes/logo.png" type="image/png rel=" stylesheet>
 
     <!-- Styles -->
     <style>
