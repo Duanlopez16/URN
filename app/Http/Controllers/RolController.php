@@ -55,8 +55,8 @@ class RolController extends Controller
      */
     public function store(\Illuminate\Http\Request $request)
     {
+        request()->validate(\App\Models\Rol::$rules);
         try {
-            request()->validate(\App\Models\Rol::$rules);
 
             $rol = \App\Models\Rol::create($request->all());
 
@@ -125,8 +125,8 @@ class RolController extends Controller
     public function update(\Illuminate\Http\Request $request, \App\Models\Rol $rol)
     {
 
+        request()->validate(\App\Models\Rol::$rules);
         try {
-            request()->validate(\App\Models\Rol::$rules);
 
             $rol->update($request->all());
 

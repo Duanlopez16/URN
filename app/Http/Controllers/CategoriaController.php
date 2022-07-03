@@ -65,8 +65,9 @@ class CategoriaController extends Controller
     public function store(\Illuminate\Http\Request $request)
     {
         $route = self::ROUTE_BASE;
+        request()->validate(\App\Models\Categoria::$rules);
+
         try {
-            request()->validate(\App\Models\Categoria::$rules);
             $categorium = \App\Models\Categoria::create($request->all());
 
             return redirect()->route('categoria.index')
@@ -131,8 +132,9 @@ class CategoriaController extends Controller
     public function update(\Illuminate\Http\Request $request, \App\Models\Categoria $categorium)
     {
         $route = self::ROUTE_BASE;
+        request()->validate(\App\Models\Categoria::$rules);
+
         try {
-            request()->validate(\App\Models\Categoria::$rules);
             $categorium->update($request->all());
             return redirect()->route('categoria.index')
                 ->with('success', 'Categoria editada correctamente');

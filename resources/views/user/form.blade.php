@@ -12,12 +12,12 @@
         </div>
         <div class="form-group">
             {{ Form::label('Rol') }}
-            {{ Form::select('rol_id', $rols,$user->rol_id, ['class' => 'form-control' . ($errors->has('rol_id') ? ' is-invalid' : ''), 'placeholder' => 'Rol Id']) }}
+            {{ Form::select('rol_id', $rols,$user->rol_id, ['class' => 'form-control' . ($errors->has('rol_id') ? ' is-invalid' : ''), 'placeholder' => 'Rol']) }}
             {!! $errors->first('rol_id', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('Tipo documento') }}
-            {{ Form::select('tipo_documento_id', $tipo_documentos,$user->tipo_documento_id, ['class' => 'form-control' . ($errors->has('tipo_documento_id') ? ' is-invalid' : ''), 'placeholder' => 'Tipo Documento Id']) }}
+            {{ Form::select('tipo_documento_id', $tipo_documentos,$user->tipo_documento_id, ['class' => 'form-control' . ($errors->has('tipo_documento_id') ? ' is-invalid' : ''), 'placeholder' => 'Tipo Documento']) }}
             {!! $errors->first('tipo_documento_id', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
@@ -34,6 +34,11 @@
             {{ Form::label('telefono') }}
             {{ Form::number('telefono', $user->telefono, ['class' => 'form-control' . ($errors->has('telefono') ? ' is-invalid' : ''), 'placeholder' => 'Telefono']) }}
             {!! $errors->first('telefono', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
+        <div class="form-group">
+            {{ Form::label('fecha de nacimiento') }}
+            {{ Form::date('fecha_nacimiento', $user->fecha_nacimiento, ['class' => 'form-control' . ($errors->has('fecha_nacimiento') ? ' is-invalid' : ''), 'placeholder' => 'fecha de nacimiento']) }}
+            {!! $errors->first('fecha_nacimiento', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <br>
     </div>

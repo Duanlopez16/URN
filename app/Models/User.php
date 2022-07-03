@@ -22,6 +22,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property $documento
  * @property $direccion
  * @property $telefono
+ * @property $fecha_nacimiento
  * @property $remember_token
  * @property $created_at
  * @property $updated_at
@@ -48,7 +49,8 @@ class User extends Authenticatable
         'direccion',
         'telefono',
         'rol_id',
-        'tipo_documento_id'
+        'tipo_documento_id',
+        'fecha_nacimiento'
     ];
 
     /**
@@ -78,6 +80,7 @@ class User extends Authenticatable
         'documento' => 'required|integer',
         'direccion' => 'required',
         'telefono' => 'required|integer',
+        'fecha_nacimiento' => 'required|date',
     ];
 
     /**

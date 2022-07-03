@@ -44,4 +44,25 @@ class Utils extends Controller
         }
         return $response_validation;
     }
+
+    /**
+     * calculate_edad
+     *
+     * @param  string $fecha_nacimiento
+     * @return object
+     */
+    public static function calculate_edad(string $fecha_nacimiento): object
+    {
+        $response = (object)['status' => false, 'message' => 'Fecha no valida.'];
+        try {
+            $firstDate  = new \DateTime(date('Y-m-d'));
+            $secondDate = new \DateTime($fecha_nacimiento);
+            $response->status = true;
+            $response->message = 'success';
+            $response->data = $firstDate->diff($secondDate);
+        } catch (\Exception $ex) {
+            $response->message = $ex->getMessage();
+        }
+        return $response;
+    }
 }

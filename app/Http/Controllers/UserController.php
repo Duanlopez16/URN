@@ -63,8 +63,8 @@ class UserController extends Controller
      */
     public function store(\Illuminate\Http\Request $request)
     {
+        request()->validate(\App\Models\User::$rules);
         try {
-            request()->validate(\App\Models\User::$rules);
             $data = $request->all();
             $data['password'] = \Illuminate\Support\Facades\Hash::make($data['documento']);
             $user = \App\Models\User::create($data);
@@ -97,6 +97,7 @@ class UserController extends Controller
                 ->where('users.status', '=', 1)
                 ->first();
             if (!empty($user)) {
+                $user->edad =  \App\Services\Utils::calculate_edad($user->fecha_nacimiento)->data->y ?? 0;
                 return view('user.show', compact('user'));
             } else {
                 return view('errors.notfound', compact('route'));
@@ -141,8 +142,8 @@ class UserController extends Controller
      */
     public function update(\Illuminate\Http\Request $request, \App\Models\User $user)
     {
+        request()->validate(\App\Models\User::$rules);
         try {
-            request()->validate(\App\Models\User::$rules);
 
             $user->update($request->all());
 

@@ -55,8 +55,8 @@ class TipoDocumentoController extends Controller
      */
     public function store(\Illuminate\Http\Request $request)
     {
+        request()->validate(\App\Models\TipoDocumento::$rules);
         try {
-            request()->validate(\App\Models\TipoDocumento::$rules);
 
             $tipoDocumento = \App\Models\TipoDocumento::create($request->all());
 

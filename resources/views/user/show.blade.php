@@ -54,6 +54,15 @@
                         {{ $user->telefono }}
                     </div>
 
+                    <div class="form-group">
+                        <strong>Fecha Nacimiento:</strong>
+                        {{ $user->fecha_nacimiento }}
+                    </div>
+
+                    <div class="form-group">
+                        <strong>Edad:</strong>
+                        {{ $user->edad }}
+                    </div>
                 </div>
             </div>
         </div>

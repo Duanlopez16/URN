@@ -40,24 +40,33 @@
 
                     @else
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('categoria.index') }}">{{ __('Categorias') }}</a>
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Productos
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item " href="{{ route('producto.index') }}"><i class="fa fa-fw fa-eye"></i> Productos</a>
+                                <a class="dropdown-item " href="{{ route('categoria.index') }}"><i class="fa fa-fw fa-eye"></i> Categorias</a>
+                                <a class="dropdown-item " href="{{ route('talla.index') }}"><i class="fa fa-fw fa-eye"></i> Tallas</a>
+                            </div>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('rol.index') }}">{{ __('Rol') }}</a>
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Usuarios
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item " href="{{ route('user.index') }}"><i class="fa fa-fw fa-eye"></i> Usuarios</a>
+                                <a class="dropdown-item " href="{{ route('rol.index') }}"><i class="fa fa-fw fa-eye"></i> Rol</a>
+                                <a class="dropdown-item " href="{{ route('tipo-documento.index') }}"><i class="fa fa-fw fa-eye"></i> Tipo documento</a>
+                            </div>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('tipo-documento.index') }}">{{ __('Tipo documento') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user.index') }}">{{ __('Usuario') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('talla.index') }}">{{ __('Tallas') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('producto.index') }}">{{ __('Productos') }}</a>
-                        </li>
+
                     </ul>
                     @endguest
 

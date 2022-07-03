@@ -58,8 +58,8 @@ class ProductoController extends Controller
      */
     public function store(\Illuminate\Http\Request $request)
     {
+        request()->validate(\App\Models\Producto::$rules);
         try {
-            request()->validate(\App\Models\Producto::$rules);
             $data = $request->all();
             $producto = \App\Models\Producto::create($request->all());
             $producto->tallasProductos()->sync($data['tallas']);
