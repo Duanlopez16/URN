@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $precio
  * @property $descripcion
  * @property $id_categoria
+ * @property $cantidad
  * @property $status
  * @property $created_at
  * @property $updated_at
@@ -51,7 +52,7 @@ class Producto extends Model
      *
      * @var array
      */
-    protected $fillable = ['uuid', 'nombre', 'color', 'precio', 'descripcion', 'id_categoria', 'status', 'user_creator', 'user_last_update'];
+    protected $fillable = ['uuid', 'nombre', 'color', 'precio', 'descripcion', 'id_categoria', 'cantidad', 'status', 'user_creator', 'user_last_update'];
 
 
     /**

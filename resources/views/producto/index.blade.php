@@ -42,6 +42,7 @@ Producto
                                     <th>Precio</th>
                                     <th>Descripcion</th>
                                     <th> Categoria</th>
+                                    <th> Cantidad</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -55,6 +56,7 @@ Producto
                                     <td>{{ $producto->precio }}</td>
                                     <td>{{ $producto->descripcion }}</td>
                                     <td>{{ $producto->categorium->nombre }}</td>
+                                    <td>{{ $producto->cantidad }}</td>
                                     <td>
                                         <form action="{{ route('producto.destroy',$producto->uuid) }}" method="POST">
                                             <a class="btn btn-sm btn-primary " href="{{ route('producto.show',$producto->uuid) }}"><i class="fa fa-fw fa-eye"></i> ver</a>

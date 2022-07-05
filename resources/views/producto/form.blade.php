@@ -26,6 +26,11 @@
                 {!! $errors->first('id_categoria', '<div class="invalid-feedback">:message</div>') !!}
             </div>
 
+            <div class="form-group">
+                {{ Form::label('Cantidad') }}
+                {{ Form::number('cantidad',$producto->cantidad, ['class' => 'form-control' . ($errors->has('cantidad') ? ' is-invalid' : ''), 'placeholder' => ' cantidad']) }}
+                {!! $errors->first('id_categoria', '<div class="invalid-feedback">:message</div>') !!}
+            </div>
             <div class="form-group ">
                 {{ Form::label('Tallas') }}
                 <br>
