@@ -24,7 +24,10 @@ class TipoDocumento extends Model
 {
     use HasFactory;
 
-    static $rules = [];
+    static $rules = [
+        'nombre' => 'required',
+        'abreviatura' => 'required'
+    ];
 
     /**
      * table

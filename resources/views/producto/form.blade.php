@@ -46,6 +46,8 @@
             <br>
         </div>
         <div class="box-footer mt20">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-secondary" href="{{ route('producto.index') }}"> Regresar</a>
+
+            <button type="submit" class="btn btn-primary">Enviar</button>
         </div>
     </div>

@@ -56,9 +56,8 @@ class TallaController extends Controller
     public function store(\Illuminate\Http\Request $request)
     {
         $route = self::ROUTE_BASE;
-
+        request()->validate(\App\Models\Talla::$rules);
         try {
-            request()->validate(\App\Models\Talla::$rules);
             $talla = \App\Models\Talla::create($request->all());
             return redirect()->route('talla.index')
                 ->with('success', 'Talla creada correctamente.');

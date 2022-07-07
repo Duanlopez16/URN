@@ -38,7 +38,14 @@ class Producto extends Model
      */
     protected $table = 'producto';
 
-    static $rules = [];
+    static $rules = [
+        'nombre' => 'required',
+        'color' => 'required',
+        'precio' => 'required|integer',
+        'descripcion' => 'required',
+        'id_categoria' => 'required|integer',
+        'cantidad' => 'required'
+    ];
 
     /**
      * perPage

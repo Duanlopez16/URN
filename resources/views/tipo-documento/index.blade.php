@@ -18,7 +18,7 @@ Tipo Documento
 
                         <div class="float-right">
                             <a href="{{ route('tipo-documento.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
-                                {{ __('Create New') }}
+                                {{ __('Crear') }}
                             </a>
                         </div>
                     </div>

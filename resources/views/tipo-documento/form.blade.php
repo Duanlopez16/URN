@@ -15,6 +15,8 @@
 
     </div>
     <div class="box-footer mt20">
+        <a class="btn btn-secondary" href="{{ route('tipo-documento.index') }}"> Regresar</a>
+
         @if (Route::currentRouteName() =='tipo-documento.create' || !empty($tipoDocumento->nombre) )
         <button type="submit" class="btn btn-primary">Enviar</button>
         @else

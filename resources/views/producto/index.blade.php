@@ -54,7 +54,6 @@ Producto
                                     <td>{{ $producto->nombre }}</td>
                                     <td style="background-color: {{ $producto->color }}"></td>
                                     <td>{{ $producto->precio }}</td>
-                                    <td>{{ $producto->descripcion }}</td>
                                     <td>{{ $producto->categorium->nombre }}</td>
                                     <td>{{ $producto->cantidad }}</td>
                                     <td>

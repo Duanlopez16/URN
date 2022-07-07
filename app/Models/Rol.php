@@ -26,7 +26,9 @@ class Rol extends Model
 
     use HasFactory;
 
-    static $rules = [];
+    static $rules = [
+        'nombre' => 'required'
+    ];
 
     /**
      * table

@@ -33,7 +33,9 @@ class categoria extends Model
      */
     protected $table = 'categoria';
 
-    static $rules = [];
+    static $rules = [
+        'nombre' => 'required',
+    ];
 
     protected $perPage = 20;
 
