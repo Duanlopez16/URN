@@ -19,15 +19,14 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users =  \Illuminate\Support\Facades\DB::table('users')
-                ->join('rol', 'users.rol_id', '=', 'rol.id')
-                ->join('tipo_documento', 'users.tipo_documento_id', '=', 'tipo_documento.id')
-                ->select('users.*', 'tipo_documento.abreviatura', 'rol.nombre')
+
+            $users = \App\Models\User::where('status', '=', 1)
                 ->where('users.id', '!=', auth()->id())
-                ->where('users.status', '=', 1)
                 ->paginate();
 
             return view('user.index', compact('users'))
+                ->with(['rol:id,nombre'])
+                ->with(['TipoDocumento:id,abreviatura'])
                 ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
         } catch (\Exception $ex) {
             $route = self::ROUTE_BASE;
@@ -43,6 +42,7 @@ class UserController extends Controller
      */
     public function create()
     {
+
         try {
             $rols =  \App\Models\Rol::where('status', '=', 1)->pluck('nombre', 'id');
             $tipo_documentos = \App\Models\TipoDocumento::where('status', '=', 1)->pluck('nombre', 'id');
@@ -63,6 +63,7 @@ class UserController extends Controller
      */
     public function store(\Illuminate\Http\Request $request)
     {
+
         request()->validate(\App\Models\User::$rules);
         try {
             $data = $request->all();
@@ -86,6 +87,7 @@ class UserController extends Controller
      */
     public function show(string $uuid)
     {
+
         $route = self::ROUTE_BASE;
 
         try {
@@ -142,6 +144,7 @@ class UserController extends Controller
      */
     public function update(\Illuminate\Http\Request $request, \App\Models\User $user)
     {
+
         request()->validate(\App\Models\User::$rules);
         try {
 
@@ -164,7 +167,6 @@ class UserController extends Controller
     public function destroy(string $uuid)
     {
         $route = self::ROUTE_BASE;
-
         try {
             $user = \App\Models\User::where('uuid', '=', $uuid)->where('status', '=', 1)->first();
             if (!empty($user)) {
@@ -175,6 +177,28 @@ class UserController extends Controller
             } else {
                 return view('errors.notfound', compact('route'));
             }
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
+    }
+
+    public function search(\Illuminate\Http\Request $request,)
+    {
+        $route = self::ROUTE_BASE;
+
+        try {
+            $data = $request->all();
+
+            $users = \App\Models\User::where('status', '=', 1)
+                ->where('id', '!=', auth()->id())
+                ->where('email', 'LIKE', '%' . $data['email'] . '%')
+                ->paginate();
+
+            return view('user.index', compact('users'))
+                ->with(['rol:id,nombre'])
+                ->with(['TipoDocumento:id,abreviatura'])
+                ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
         } catch (\Exception $ex) {
             $error = $ex->getMessage();
             return view('errors.error', compact('route', 'error'));

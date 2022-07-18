@@ -27,3 +27,5 @@ Route::resource('talla', \App\Http\Controllers\TallaController::class)->middlewa
 Route::resource('producto', \App\Http\Controllers\ProductoController::class)->middleware('auth');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/user/search/params', [\App\Http\Controllers\UserController::class, 'search'])->name('search_user')->middleware('auth');

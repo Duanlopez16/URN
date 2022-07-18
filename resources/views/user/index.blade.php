@@ -6,6 +6,18 @@ User
 
 @section('content')
 <div class="container-fluid">
+    <form method="POST" action="{{ route('search_user')}}" id="search-form">
+        @csrf
+        <div class="grid grid-cols-12 gap-6">
+            <div class="col-span-3 sm:col-span-3">
+                <input type="text" name="email" placeholder="email..." value="{{ request('email') }}" autocomplete="off" class="bg-white h-10 px-5 pr-10 rounded text-sm focus:outline-none w-full" />
+            </div>
+        </div>
+        <br>
+        <a class="btn btn-sm btn-primary " href="{{ route('user.index')}}"><i class="fa fa-fw fa-eye"></i> Limpiar</a>
+        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-fw fa-trash"></i> Buscar</button>
+
+    </form>
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
@@ -28,7 +40,6 @@ User
                     <p>{{ $message }}</p>
                 </div>
                 @endif
-
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
@@ -55,11 +66,10 @@ User
                                     <td>{{ $user->uuid }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->nombre }}</td>
-                                    <td>{{ $user->abreviatura }}</td>
+                                    <td>{{ $user->rol->nombre }}</td>
+                                    <td>{{ $user->TipoDocumento->abreviatura }}</td>
                                     <td>{{ $user->documento }}</td>
                                     <td>{{ $user->telefono }}</td>
-
                                     <td>
                                         <form action="{{ route('user.destroy',$user->id) }}" method="POST">
                                             <a class="btn btn-sm btn-primary " href="{{ route('user.show',$user->uuid) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
