@@ -183,6 +183,12 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * search
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return void
+     */
     public function search(\Illuminate\Http\Request $request,)
     {
         $route = self::ROUTE_BASE;
