@@ -22,6 +22,7 @@ class UserController extends Controller
 
             $users = \App\Models\User::where('status', '=', 1)
                 ->where('users.id', '!=', auth()->id())
+                ->orderBy('created_at', 'Desc')
                 ->paginate();
 
             return view('user.index', compact('users'))
@@ -189,7 +190,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return void
      */
-    public function search(\Illuminate\Http\Request $request,)
+    public function search(\Illuminate\Http\Request $request)
     {
         $route = self::ROUTE_BASE;
 
@@ -199,6 +200,7 @@ class UserController extends Controller
             $users = \App\Models\User::where('status', '=', 1)
                 ->where('id', '!=', auth()->id())
                 ->where('email', 'LIKE', '%' . $data['email'] . '%')
+                ->orderBy('created_at', 'DESC')
                 ->paginate();
 
             return view('user.index', compact('users'))

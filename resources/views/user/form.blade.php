@@ -43,7 +43,7 @@
         <br>
     </div>
     <div class="box-footer mt20">
-        <a class="btn btn-secondary" href="{{ route('talla.index') }}"> Regresar</a>
+        <a class="btn btn-secondary" href="{{ route('user.index') }}"> Regresar</a>
         <button type="submit" class="btn btn-primary">Enviar</button>
     </div>
 </div>

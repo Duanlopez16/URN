@@ -19,13 +19,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('categoria', \App\Http\Controllers\CategoriaController::class)->middleware('auth');
-Route::resource('rol', \App\Http\Controllers\RolController::class)->middleware('auth');
-Route::resource('tipo-documento', \App\Http\Controllers\TipoDocumentoController::class)->middleware('auth');
-Route::resource('user', \App\Http\Controllers\UserController::class)->middleware('auth');
-Route::resource('talla', \App\Http\Controllers\TallaController::class)->middleware('auth');
-Route::resource('producto', \App\Http\Controllers\ProductoController::class)->middleware('auth');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::post('/user/search/params', [\App\Http\Controllers\UserController::class, 'search'])->name('search_user')->middleware('auth');
+Route::group(['middleware' => 'auth:web'], function () {
+    Route::resource('categoria', \App\Http\Controllers\CategoriaController::class);
+    Route::resource('rol', \App\Http\Controllers\RolController::class);
+    Route::resource('tipo-documento', \App\Http\Controllers\TipoDocumentoController::class);
+    Route::resource('user', \App\Http\Controllers\UserController::class);
+    Route::resource('talla', \App\Http\Controllers\TallaController::class);
+    Route::resource('producto', \App\Http\Controllers\ProductoController::class);
+    Route::resource('detalle-facturas', \App\Http\Controllers\DetalleFacturaController::class);
+    Route::resource('factura', \App\Http\Controllers\FacturaController::class);
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::post('/user/search/params', [\App\Http\Controllers\UserController::class, 'search'])->name('search_user');
+});
