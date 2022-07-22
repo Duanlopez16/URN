@@ -30,4 +30,5 @@ Route::group(['middleware' => 'auth:web'], function () {
     Route::resource('factura', \App\Http\Controllers\FacturaController::class);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/user/search/params', [\App\Http\Controllers\UserController::class, 'search'])->name('search_user');
+    Route::post('/producto/search/categoria', [\App\Http\Controllers\ProductoController::class, 'search'])->name('search_product');
 });

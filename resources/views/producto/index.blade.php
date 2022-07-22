@@ -6,6 +6,19 @@ Producto
 
 @section('content')
 <div class="container-fluid">
+    <form method="POST" action="{{ route('search_product')}}" id="search-form">
+        @csrf
+        <div class="grid grid-cols-12 gap-6">
+            <div class="form-group">
+                {{ Form::label('categoria') }}
+                {{ Form::select('id_categoria',$categorias ,[], ['class' => 'form-control' . ($errors->has('id_categoria') ? ' is-invalid' : ''), 'placeholder' => 'seleccionar']) }}
+            </div>
+        </div>
+        <br>
+        <a class="btn btn-sm btn-primary " href="{{ route('user.index')}}"><i class="fa fa-fw fa-eye"></i> Limpiar</a>
+        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-fw fa-trash"></i> Buscar</button>
+
+    </form>
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
