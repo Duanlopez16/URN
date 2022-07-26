@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 /**
  * Class UserController
  * @package App\Http\Controllers
@@ -207,6 +208,55 @@ class UserController extends Controller
                 ->with(['rol:id,nombre'])
                 ->with(['TipoDocumento:id,abreviatura'])
                 ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
+    }
+
+    /**
+     * update_password
+     *
+     * @return void
+     */
+    public function update_password()
+    {
+        $route = self::ROUTE_BASE;
+        try {
+            return view('user.update_password');
+        } catch (\Exception $ex) {
+            $error = $ex->getMessage();
+            return view('errors.error', compact('route', 'error'));
+        }
+    }
+
+    /**
+     * update_password_action
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function update_password_action(\Illuminate\Http\Request $request)
+    {
+        $route = self::ROUTE_BASE;
+        request()->validate([
+            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:6'
+        ]);
+        try {
+            $user = \App\Models\User::where([
+                ['id', (int)auth()->id()],
+                ['status', 1]
+            ])->first();
+
+            if (!empty($user)) {
+                $data = $request->all();
+                $user->password = \Illuminate\Support\Facades\Hash::make($data['password']);
+                $user->update();
+                return view('home');
+            } else {
+                return view('errors.notfound', compact('route'));
+            }
         } catch (\Exception $ex) {
             $error = $ex->getMessage();
             return view('errors.error', compact('route', 'error'));
