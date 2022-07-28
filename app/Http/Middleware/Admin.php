@@ -16,7 +16,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->rol_id == 1) {
+        if (auth()->user()->rol_id == \App\Models\User::PROFILES['admin']) {
             return $next($request);
         } else {
             return response()->view('errors.404', [], 404);

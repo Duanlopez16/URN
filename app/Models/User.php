@@ -36,6 +36,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+
+    const PROFILES = ['admin' => 1, 'vendedor' => 2];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -103,7 +106,7 @@ class User extends Authenticatable
      */
     public function TipoDocumento()
     {
-        return $this->hasOne('App\Models\TipoDocumento', 'id', 'rol_id');
+        return $this->hasOne('App\Models\TipoDocumento', 'id', 'tipo_documento_id');
     }
 
     /**

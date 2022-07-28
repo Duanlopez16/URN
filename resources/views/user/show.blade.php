@@ -15,7 +15,11 @@
                     </div>
                     <br>
                     <div class="float-right">
+                        @if ((int)Auth::user()->rol_id == (int)\App\Models\User::PROFILES['admin'])
                         <a class="btn btn-primary" href="{{ route('user.index') }}"> Regresar</a>
+                        @else
+                        <a class="btn btn-primary" href="{{ route('home') }}"> Regresar</a>
+                        @endif
                     </div>
                 </div>
 

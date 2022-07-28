@@ -54,10 +54,13 @@
                             </div>
                         </li>
 
+                        @if ((int)Auth::user()->rol_id == (int)\App\Models\User::PROFILES['admin'])
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Usuarios
                             </a>
+
+
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item " href="{{ route('user.index') }}"><i class="fa fa-fw fa-eye"></i> Usuarios</a>
                                 <a class="dropdown-item " href="{{ route('rol.index') }}"><i class="fa fa-fw fa-eye"></i> Rol</a>
@@ -66,6 +69,7 @@
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             </div>
                         </li>
+                        @endif
 
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

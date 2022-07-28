@@ -71,15 +71,6 @@ class Producto extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function talla()
-    {
-        return $this->hasOne('App\Models\Talla', 'id', 'id_categoria');
-    }
-
-
-    /**
      * The roles that belong to the user.
      */
     public function tallasProductos()

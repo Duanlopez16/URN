@@ -15,7 +15,7 @@ Producto
             </div>
         </div>
         <br>
-        <a class="btn btn-sm btn-primary " href="{{ route('user.index')}}"><i class="fa fa-fw fa-eye"></i> Limpiar</a>
+        <a class="btn btn-sm btn-primary " href="{{ route('producto.index')}}"><i class="fa fa-fw fa-eye"></i> Limpiar</a>
         <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-fw fa-trash"></i> Buscar</button>
 
     </form>
@@ -28,12 +28,13 @@ Producto
                         <span id="card_title">
                             {{ __('Producto') }}
                         </span>
-
+                        @if ((int)Auth::user()->rol_id == (int)\App\Models\User::PROFILES['admin'])
                         <div class="float-right">
                             <a href="{{ route('producto.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
                                 {{ __('Crear') }}
                             </a>
                         </div>
+                        @endif
                     </div>
                 </div>
                 @if ($message = Session::get('success'))
@@ -67,15 +68,18 @@ Producto
                                     <td>{{ $producto->nombre }}</td>
                                     <td style="background-color: {{ $producto->color }}"></td>
                                     <td>{{ $producto->precio }}</td>
+                                    <td>{{ $producto->descripcion }}</td>
                                     <td>{{ $producto->categorium->nombre }}</td>
                                     <td>{{ $producto->cantidad }}</td>
                                     <td>
                                         <form action="{{ route('producto.destroy',$producto->uuid) }}" method="POST">
                                             <a class="btn btn-sm btn-primary " href="{{ route('producto.show',$producto->uuid) }}"><i class="fa fa-fw fa-eye"></i> ver</a>
+                                            @if ((int)Auth::user()->rol_id == (int)\App\Models\User::PROFILES['admin'])
                                             <a class="btn btn-sm btn-success" href="{{ route('producto.edit',$producto->uuid) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
+                                            @endif
                                         </form>
                                     </td>
                                 </tr>

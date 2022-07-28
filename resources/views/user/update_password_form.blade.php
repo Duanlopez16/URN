@@ -6,7 +6,7 @@
             {!! $errors->first('password', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
-            {{ Form::label('Confirmar contrseña') }}
+            {{ Form::label('Confirmar contraseña') }}
             <input id="password_confirmation" type="password" class="form-control @error('password') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password" placeholder="Confirme contraseña">
             {!! $errors->first('password_confirmation', '<div class="invalid-feedback">:message</div>') !!}
         </div>

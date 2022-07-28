@@ -16,11 +16,14 @@ Talla
                             {{ __('Talla') }}
                         </span>
 
+                        @if ((int)Auth::user()->rol_id == (int)\App\Models\User::PROFILES['admin'])
                         <div class="float-right">
                             <a href="{{ route('talla.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
                                 {{ __('Crear talla') }}
                             </a>
                         </div>
+                        @endif
+
                     </div>
                 </div>
                 @if ($message = Session::get('success'))
@@ -54,10 +57,12 @@ Talla
                                     <td>
                                         <form action="{{ route('talla.destroy',$talla->uuid) }}" method="POST">
                                             <a class="btn btn-sm btn-primary " href="{{ route('talla.show',$talla->uuid) }}"><i class="fa fa-fw fa-eye"></i> ver</a>
+                                            @if ((int)Auth::user()->rol_id == (int)\App\Models\User::PROFILES['admin'])
                                             <a class="btn btn-sm btn-success" href="{{ route('talla.edit',$talla->uuid) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
+                                            @endif
                                         </form>
                                     </td>
                                 </tr>

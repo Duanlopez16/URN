@@ -17,10 +17,12 @@
                     <div class="float-right">
                         <form action="{{ route('categoria.destroy',$categorium->uuid) }}" method="POST">
                             <a class="btn  btn-secondary " href="{{ route('categoria.index') }}"><i class="fa fa-fw fa-eye"></i> Regresar</a>
+                            @if ((int)Auth::user()->rol_id == (int)\App\Models\User::PROFILES['admin'])
                             <a class="btn  btn-success" href="{{ route('categoria.edit',$categorium->uuid) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
+                            @endif
                         </form>
                     </div>
                 </div>

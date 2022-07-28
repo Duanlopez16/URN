@@ -12,6 +12,16 @@ class TallaController extends Controller
     const ROUTE_BASE = 'talla';
 
     /**
+     * __construct
+     *
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('admin')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

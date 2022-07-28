@@ -13,6 +13,17 @@ class UserController extends Controller
     const ROUTE_BASE = 'user';
 
     /**
+     * __construct
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('admin')->except(['show', 'update_password', 'update_password_action']);
+    }
+
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -20,7 +31,6 @@ class UserController extends Controller
     public function index()
     {
         try {
-
             $users = \App\Models\User::where('status', '=', 1)
                 ->where('users.id', '!=', auth()->id())
                 ->orderBy('created_at', 'Desc')
