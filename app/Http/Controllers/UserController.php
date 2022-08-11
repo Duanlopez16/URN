@@ -22,7 +22,6 @@ class UserController extends Controller
         $this->middleware('admin')->except(['show', 'update_password', 'update_password_action']);
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -75,8 +74,19 @@ class UserController extends Controller
      */
     public function store(\Illuminate\Http\Request $request)
     {
+        $rules = \App\Models\User::$rules;
 
-        request()->validate(\App\Models\User::$rules);
+        $rules['fecha_nacimiento'] = [
+            'required',
+            'date',
+            function ($attribute, $value, $fail) {
+                if ($value >= date('Y-m-d')) {
+                    $fail($attribute . ' the date entered cannot be greater than the current date');
+                }
+            },
+        ];
+
+        request()->validate($rules);
         try {
             $data = $request->all();
             $data['password'] = \Illuminate\Support\Facades\Hash::make($data['documento']);
@@ -157,7 +167,19 @@ class UserController extends Controller
     public function update(\Illuminate\Http\Request $request, \App\Models\User $user)
     {
 
-        request()->validate(\App\Models\User::$rules);
+        $rules = \App\Models\User::$rules;
+
+        $rules['fecha_nacimiento'] = [
+            'required',
+            'date',
+            function ($attribute, $value, $fail) {
+                if ($value >= date('Y-m-d')) {
+                    $fail($attribute . ' the date entered cannot be greater than the current date');
+                }
+            },
+        ];
+
+        request()->validate($rules);
         try {
 
             $user->update($request->all());

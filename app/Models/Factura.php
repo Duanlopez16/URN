@@ -67,6 +67,14 @@ class Factura extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
+    public function user_creator()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'user_creator');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function user_last_update()
     {
         return $this->hasOne('App\Models\User', 'id', 'user_last_update');
@@ -75,54 +83,8 @@ class Factura extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function client()
+    public function cliente()
     {
         return $this->hasOne('App\Models\User', 'id', 'cliente_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function user_creator()
-    {
-        return $this->hasOne('App\Models\User', 'id', 'user_creator');
-    }
-
-    /**
-     * boot
-     *
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        self::creating(function ($model) {
-            $uuid = \Ramsey\Uuid\Uuid::uuid4();
-            $model->uuid = $uuid->toString();
-            $model->user_creator = auth()->id();
-            return $model;
-        });
-
-        self::created(function ($model) {
-            // ... code here
-        });
-
-        self::updating(function ($model) {
-            $model->user_last_update = auth()->id();
-            return $model;
-        });
-
-        self::updated(function ($model) {
-            // ... code here
-        });
-
-        self::deleting(function ($model) {
-            // ... code here
-        });
-
-        self::deleted(function ($model) {
-            // ... code here
-        });
     }
 }

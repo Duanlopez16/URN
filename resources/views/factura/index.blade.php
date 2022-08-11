@@ -41,7 +41,9 @@ Factura
                                     <th>Total</th>
                                     <th>Subtotal</th>
                                     <th>Iva</th>
+                                    <th>Status</th>
                                     <th>User Creator</th>
+                                    <th>User Last Update</th>
 
                                     <th></th>
                                 </tr>
@@ -56,7 +58,9 @@ Factura
                                     <td>{{ $factura->total }}</td>
                                     <td>{{ $factura->subtotal }}</td>
                                     <td>{{ $factura->iva }}</td>
+                                    <td>{{ $factura->status }}</td>
                                     <td>{{ $factura->user_creator }}</td>
+                                    <td>{{ $factura->user_last_update }}</td>
 
                                     <td>
                                         <form action="{{ route('factura.destroy',$factura->id) }}" method="POST">

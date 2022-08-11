@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Factura;
 use Illuminate\Http\Request;
 
 /**
@@ -10,9 +11,6 @@ use Illuminate\Http\Request;
  */
 class FacturaController extends Controller
 {
-
-    const ROUTE_BASE = 'factura';
-
     /**
      * Display a listing of the resource.
      *
@@ -20,17 +18,10 @@ class FacturaController extends Controller
      */
     public function index()
     {
-        try {
-            $facturas = \App\Models\Factura::where('status', 1)
-                ->orderBy('created_at', 'Desc')
-                ->paginate();
-            return view('factura.index', compact('facturas'))
-                ->with('i', (request()->input('page', 1) - 1) * $facturas->perPage());
-        } catch (\Exception $ex) {
-            $route = self::ROUTE_BASE;
-            $error = $ex->getMessage();
-            return view('errors.error', compact('route', 'error'));
-        }
+        $facturas = Factura::paginate();
+
+        return view('factura.index', compact('facturas'))
+            ->with('i', (request()->input('page', 1) - 1) * $facturas->perPage());
     }
 
     /**
@@ -40,14 +31,8 @@ class FacturaController extends Controller
      */
     public function create()
     {
-        try {
-            $factura = new \App\Models\Factura();
-            return view('factura.create', compact('factura'));
-        } catch (\Exception $ex) {
-            $route = self::ROUTE_BASE;
-            $error = $ex->getMessage();
-            return view('errors.error', compact('route', 'error'));
-        }
+        $factura = new Factura();
+        return view('factura.create', compact('factura'));
     }
 
     /**
@@ -56,36 +41,25 @@ class FacturaController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(\Illuminate\Http\Request $request)
+    public function store(Request $request)
     {
+        request()->validate(Factura::$rules);
 
-        request()->validate(\App\Models\Factura::$rules);
-        try {
-            $factura = \App\Models\Factura::create($request->all());
+        $factura = Factura::create($request->all());
 
-            return redirect()->route('factura.index')
-                ->with('success', 'Factura creada correctamente.');
-        } catch (\Exception $ex) {
-        }
+        return redirect()->route('facturas.index')
+            ->with('success', 'Factura created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  string $uuid
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(string $uuid)
+    public function show($id)
     {
-        $factura = \App\Models\Factura::where(
-            ['uuid', $uuid],
-            ['status', 1]
-        );
-
-        if (!empty($factura)) {
-        }else{
-            
-        }
+        $factura = Factura::find($id);
 
         return view('factura.show', compact('factura'));
     }
@@ -98,7 +72,7 @@ class FacturaController extends Controller
      */
     public function edit($id)
     {
-        $factura = \App\Models\Factura::find($id);
+        $factura = Factura::find($id);
 
         return view('factura.edit', compact('factura'));
     }
@@ -110,13 +84,13 @@ class FacturaController extends Controller
      * @param  Factura $factura
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, \App\Models\Factura $factura)
+    public function update(Request $request, Factura $factura)
     {
-        request()->validate(\App\Models\Factura::$rules);
+        request()->validate(Factura::$rules);
 
         $factura->update($request->all());
 
-        return redirect()->route('factura.index')
+        return redirect()->route('facturas.index')
             ->with('success', 'Factura updated successfully');
     }
 
@@ -127,9 +101,9 @@ class FacturaController extends Controller
      */
     public function destroy($id)
     {
-        $factura = \App\Models\Factura::find($id)->delete();
+        $factura = Factura::find($id)->delete();
 
-        return redirect()->route('factura.index')
+        return redirect()->route('facturas.index')
             ->with('success', 'Factura deleted successfully');
     }
 }
