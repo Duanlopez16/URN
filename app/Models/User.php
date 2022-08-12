@@ -77,12 +77,12 @@ class User extends Authenticatable
 
     static $rules = [
         'name' => 'required',
-        'email' => 'required|email',
+        'email' => 'required|email||unique:users',
         'rol_id' => 'required|integer',
         'tipo_documento_id' => 'required|integer',
-        'documento' => 'required|integer',
+        'documento' => 'required|integer|unique:users',
         'direccion' => 'required',
-        'telefono' => 'required|integer',
+        'telefono' => 'required|integer||unique:users',
         'fecha_nacimiento' => 'required|date',
     ];
 
